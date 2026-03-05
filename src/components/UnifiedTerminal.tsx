@@ -298,14 +298,12 @@ export const UnifiedTerminal: React.FC = () => {
                                 <Panel title="📊 Financial Snapshot">
                                     <FinancialSnapshot params={params} metrics={metrics} />
                                 </Panel>
-                                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                                    <Panel title="📈 Volume Projections">
-                                        <MinimalCharts params={params} />
-                                    </Panel>
-                                    <Panel title="⛈️ Stress Tests" tint="danger">
-                                        <StressTests baseParams={params} />
-                                    </Panel>
-                                </div>
+                                <Panel title="📈 Volume Projections">
+                                    <MinimalCharts params={params} />
+                                </Panel>
+                                <Panel title="⛈️ Stress Tests" tint="danger">
+                                    <StressTests baseParams={params} />
+                                </Panel>
                                 <Panel title="🌡️ Sensitivity Heatmap">
                                     <Heatmap params={params} />
                                 </Panel>
