@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-export function SolanaRain() {
+export function useSolanaRain() {
     const [particles, setParticles] = useState<{ id: number; left: string; duration: string }[]>([]);
 
     const triggerRain = useCallback(() => {
@@ -14,20 +14,21 @@ export function SolanaRain() {
     }, []);
 
     // Expose trigger globally for easier integration
-    (window as any).triggerSolanaRain = triggerRain;
+    if (typeof window !== 'undefined') {
+        (window as any).triggerSolanaRain = triggerRain;
+    }
 
-    return {
-        RainComponent: (
-            <>
-                {particles.map(p => (
-                    <div
-                        key={p.id}
-                        className="sol-coin"
-                        style={{ left: p.left, animationDuration: p.duration }}
-                    />
-                ))}
-            </>
-        ),
-        triggerRain
-    };
+    const RainComponent = (
+        <>
+            {particles.map(p => (
+                <div
+                    key={p.id}
+                    className="sol-coin"
+                    style={{ left: p.left, animationDuration: p.duration }}
+                />
+            ))}
+        </>
+    );
+
+    return { RainComponent, triggerRain };
 }

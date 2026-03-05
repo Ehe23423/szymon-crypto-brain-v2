@@ -18,7 +18,7 @@ import { PartnerRevenueSim } from './PartnerRevenueSim';
 import { DealRoast } from './DealRoast';
 import { DealAssistant } from './DealAssistant';
 import { WhaleEffect } from './WhaleEffect';
-import { SolanaRain } from './SolanaRain';
+import { useSolanaRain } from './SolanaRain';
 
 type TabId = 'hunter' | 'agency' | 'roast';
 
@@ -66,7 +66,7 @@ export const UnifiedTerminal: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabId>('hunter');
 
     const metrics = useMemo(() => calculateDealMetrics(params), [params]);
-    const { RainComponent, triggerRain } = SolanaRain();
+    const { RainComponent, triggerRain } = useSolanaRain();
 
     const dealScore = useMemo(() => {
         const buf = metrics.marginBuffer * 100;
@@ -136,10 +136,10 @@ export const UnifiedTerminal: React.FC = () => {
                     <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
                         {[
                             { label: metrics.status, color: sColor },
-                            { label: `Score ${dealScore}/100`, color: '#fff' },
-                            { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: '#94a3b8' },
+                            { label: `Score ${dealScore}/100`, color: 'var(--accent-amber)' },
+                            { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: 'var(--accent-blue)' },
                         ].map(chip => (
-                            <div key={chip.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.7rem', fontWeight: 800, color: chip.color, whiteSpace: 'nowrap' }}>
+                            <div key={chip.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.7rem', fontWeight: 800, color: chip.color, whiteSpace: 'nowrap', boxShadow: `0 0 10px ${chip.color}22` }}>
                                 {chip.label}
                             </div>
                         ))}
