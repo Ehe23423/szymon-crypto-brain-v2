@@ -81,7 +81,7 @@ const QA_LIST: QA[] = [
     {
         question: 'Retained per $1M volume?',
         emoji: '💰',
-        getAnswer: (p, m) => {
+        getAnswer: (_p, m) => {
             const r1m = m.retainedPer1M;
             if (r1m < 80) return `☠️ COLLAPSE ZONE: Only $${r1m.toFixed(0)} retained per $1M volume. PDF thresholds: <$80/1M = MARGIN COLLAPSE RISK. You need at least $${(80).toFixed(0)} to cover operational variability.`;
             if (r1m < 140) return `⚠️ LOW MARGIN: $${r1m.toFixed(0)}/1M retained. Base formula at 0.035% fee = $350/1M gross. You're keeping ${(r1m / 350 * 100).toFixed(0)}% of gross — below recommended 40%+ floor.`;
