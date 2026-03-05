@@ -48,7 +48,7 @@ function Panel({ title, children, tint, noPad }: { title: React.ReactNode; child
             padding: noPad ? '14px' : '20px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
             ...(tint ? TINTS[tint] : {}),
-            overflow: 'hidden'
+            flexShrink: 0
         }}>
             <div style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: noPad ? '10px' : '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {title}
@@ -135,11 +135,22 @@ export const UnifiedTerminal: React.FC = () => {
                     </button>
                     <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
                         {[
-                            { label: metrics.status, color: sColor },
-                            { label: `Score ${dealScore}/100`, color: 'var(--accent-amber)' },
-                            { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: 'var(--accent-blue)' },
+                            { label: metrics.status, color: sColor, glow: sColor },
+                            { label: `Score ${dealScore}/100`, color: 'var(--accent-amber)', glow: 'var(--accent-amber)' },
+                            { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: 'var(--accent-blue)', glow: 'var(--accent-blue)' },
                         ].map(chip => (
-                            <div key={chip.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.7rem', fontWeight: 800, color: chip.color, whiteSpace: 'nowrap', boxShadow: `0 0 10px ${chip.color}22` }}>
+                            <div key={chip.label} style={{
+                                background: 'rgba(255,255,255,0.04)',
+                                border: `1px solid ${chip.glow}44`,
+                                borderRadius: '6px',
+                                padding: '4px 12px',
+                                fontSize: '0.7rem',
+                                fontWeight: 800,
+                                color: chip.color,
+                                whiteSpace: 'nowrap',
+                                boxShadow: `0 0 15px ${chip.glow}15`,
+                                textShadow: `0 0 8px ${chip.glow}44`
+                            }}>
                                 {chip.label}
                             </div>
                         ))}
