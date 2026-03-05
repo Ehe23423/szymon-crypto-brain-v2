@@ -142,18 +142,18 @@ export const UnifiedTerminal: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <select
                             onChange={(e) => {
                                 if (e.target.value) setParams(PRESET_SCENARIOS[parseInt(e.target.value)].params);
                             }}
                             defaultValue=""
                             className="storm-btn"
-                            style={{ fontSize: '0.65rem', padding: '0 8px', background: 'rgba(139, 92, 246, 0.2)', borderRadius: '4px', border: '1px solid rgba(139, 92, 246, 0.4)', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: 700 }}
+                            style={{ fontSize: '0.65rem', padding: '0 12px', height: '28px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: 600, backdropFilter: 'blur(10px)', width: 'auto' }}
                         >
                             <option value="" disabled>⚡ LOAD SCENARIO</option>
                             {PRESET_SCENARIOS.map((s, i) => (
-                                <option key={i} value={i} style={{ background: '#111827' }}>{s.label}</option>
+                                <option key={i} value={i} style={{ background: '#1e1e22' }}>{s.label}</option>
                             ))}
                         </select>
 
@@ -161,7 +161,7 @@ export const UnifiedTerminal: React.FC = () => {
                             value={selectedRainCoin}
                             onChange={(e) => setSelectedRainCoin(e.target.value as CoinType)}
                             className="storm-btn"
-                            style={{ fontSize: '0.65rem', padding: '0 8px', background: 'rgba(0,0,0,0.4)', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)', color: 'white', outline: 'none', cursor: 'pointer' }}
+                            style={{ fontSize: '0.65rem', padding: '0 12px', height: '28px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: 600, backdropFilter: 'blur(10px)', width: 'auto' }}
                         >
                             <option value="SOL">SOL</option>
                             <option value="BTC">BTC</option>
@@ -172,10 +172,10 @@ export const UnifiedTerminal: React.FC = () => {
                         <button
                             className="storm-btn"
                             data-variant="hunter"
-                            style={{ fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                            style={{ fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: '6px', height: '28px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%)', backdropFilter: 'blur(10px)' }}
                             onClick={() => triggerRain(selectedRainCoin)}
                         >
-                            MAKE IT RAIN {selectedRainCoin}
+                            🌧️ MAKE IT RAIN {selectedRainCoin}
                         </button>
                         <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
                             {[

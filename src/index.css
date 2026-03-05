@@ -1,30 +1,35 @@
 :root {
-  /* === PUZZLE COLOR PALETTE (REBRAND) === */
-  --bg-dark: #0e0d1e;
-  --bg-card: rgba(26, 25, 45, 0.7);
+  /* === APPLE PREMIUM GLASSMORPHISM PALETTE === */
+  --bg-dark: #000000;
+  /* Deep pitch black background */
+  --bg-card: rgba(30, 30, 35, 0.4);
+  /* Translucent dark gray for glass */
 
-  --accent-blue: #8be9fd;
-  /* Puzzle Cyan */
-  --accent-purple: #bd93f9;
-  /* Puzzle Lavender */
-  --accent-orange: #ffb86c;
-  /* Puzzle Orange */
-  --accent-pink: #ff79c6;
-  /* Puzzle Pink */
-  --accent-emerald: #50fa7b;
-  /* Puzzle Mint */
-  --accent-rose: #ff5555;
-  /* Puzzle Red */
-  --accent-amber: #f1fa8c;
-  /* Puzzle Yellow */
-  --accent-cyan: #8be9fd;
-  /* Puzzle Cyan */
+  --accent-blue: #0ea5e9;
+  /* Sky blue (neutral, professional) */
+  --accent-purple: #8b5cf6;
+  /* Soft violet */
+  --accent-orange: #f59e0b;
+  /* Amber */
+  --accent-pink: #ec4899;
+  /* Pink */
+  --accent-emerald: #10b981;
+  /* Emerald green */
+  --accent-rose: #ef4444;
+  /* Soft red */
+  --accent-amber: #eab308;
+  /* Yellow */
+  --accent-cyan: #06b6d4;
+  /* Base cyan */
 
-  --text-primary: #f8f8f2;
-  --text-secondary: #6272a4;
+  --text-primary: #f8fafc;
+  /* Pure ice white */
+  --text-secondary: #94a3b8;
+  /* Slate gray */
 
-  --border-light: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(189, 147, 249, 0.4);
+  --border-light: rgba(255, 255, 255, 0.08);
+  /* Very subtle white border */
+  --border-hover: rgba(255, 255, 255, 0.2);
 
   /* Glows */
   --glow-blue: 0 0 20px rgba(139, 233, 253, 0.2);
@@ -136,8 +141,8 @@ body {
   backdrop-filter: blur(40px) saturate(150%);
   -webkit-backdrop-filter: blur(40px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 12px;
   transition: var(--transition-fast);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
@@ -1771,8 +1776,8 @@ table {
 /* Mobile Devices (phones, less than 768px) */
 @media (max-width: 767px) {
   body {
-    font-size: 10px;
-    /* Base font smaller */
+    font-size: 9px;
+    /* Base font smaller for max density */
   }
 
   .bento-grid-2 {
@@ -1782,19 +1787,30 @@ table {
   .layout-header {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 12px !important;
-  }
-
-  .layout-sidebar {
     gap: 8px !important;
   }
 
+  .layout-sidebar {
+    gap: 6px !important;
+    padding: 10px 0 10px 10px !important;
+  }
+
   .bento-item {
-    padding: 12px;
+    padding: 10px !important;
+    border-radius: 12px !important;
   }
 
   .header-chips {
     flex-wrap: wrap;
+    gap: 4px !important;
+  }
+
+  .terminal-header {
+    padding: 8px 12px !important;
+  }
+
+  h1 {
+    font-size: 1.1rem !important;
   }
 }
 
