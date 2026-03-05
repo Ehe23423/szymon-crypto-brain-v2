@@ -19,6 +19,7 @@ import { DealRoast } from './DealRoast';
 import { DealAssistant } from './DealAssistant';
 import { WhaleEffect } from './WhaleEffect';
 import { useCryptoRain, type CoinType } from './SolanaRain';
+import { useLanguage } from '../lib/LanguageContext';
 
 type TabId = 'hunter' | 'agency' | 'roast';
 
@@ -68,12 +69,13 @@ function Panel({ title, children, tint, noPad }: { title: React.ReactNode; child
     );
 }
 
-export const UnifiedTerminal: React.FC = () => {
+export function UnifiedTerminal() {
+    const { language, setLanguage, t } = useLanguage();
+    const [activeTab, setActiveTab] = useState<TabId>('hunter');
     const [params, setParams] = useState<DealParams>({
         V: 10_000_000, F: 0.035, P: 50, S: 30,
         R: 0, I: 0, B: 0, safetyThreshold: 15,
     });
-    const [activeTab, setActiveTab] = useState<TabId>('hunter');
 
     const metrics = useMemo(() => calculateDealMetrics(params), [params]);
     const { RainComponent, triggerRain } = useCryptoRain();
@@ -128,17 +130,23 @@ export const UnifiedTerminal: React.FC = () => {
                 <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1 }}>
                         <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
-                            BD <span style={{ color: 'var(--accent-purple)' }}>BRAIN</span>
+                            {t('title').split(' ')[0]} <span style={{ color: 'var(--accent-purple)' }}>{t('title').split(' ').slice(1).join(' ')}</span>
                         </h1>
                         <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-purple)', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '6px', opacity: 0.9 }}>
-                            First Ever Exchange deal calculator for Crypto Business developers - one to help us all
+                            {t('subtitle')}
                         </div>
-                        <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-                            <a href="https://t.me/ostryopos" target="_blank" rel="noreferrer" className="storm-btn" style={{ fontSize: '0.7rem', fontWeight: 800, padding: '8px 16px', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.3)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '8px' }}>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '10px', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '4px', marginRight: '8px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <button onClick={() => setLanguage('en')} style={{ background: language === 'en' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', cursor: 'pointer', borderRadius: '4px', padding: '2px 6px', fontSize: '1rem' }} title="English">🇺🇸</button>
+                                <button onClick={() => setLanguage('pl')} style={{ background: language === 'pl' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', cursor: 'pointer', borderRadius: '4px', padding: '2px 6px', fontSize: '1rem' }} title="Polski">🇵🇱</button>
+                                <button onClick={() => setLanguage('hi')} style={{ background: language === 'hi' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', cursor: 'pointer', borderRadius: '4px', padding: '2px 6px', fontSize: '1rem' }} title="Hindi">🇮🇳</button>
+                                <button onClick={() => setLanguage('es')} style={{ background: language === 'es' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', cursor: 'pointer', borderRadius: '4px', padding: '2px 6px', fontSize: '1rem' }} title="Español">🇪🇸</button>
+                            </div>
+                            <a href="https://t.me/ostryopos" target="_blank" rel="noreferrer" className="storm-btn" style={{ fontSize: '0.7rem', fontWeight: 800, padding: '6px 16px', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.3)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '8px' }}>
                                 ✈️ DM @ostryopos
                             </a>
-                            <button onClick={() => { navigator.clipboard.writeText(window.location.href); alert('App URL copied to clipboard!'); }} className="storm-btn" style={{ fontSize: '0.7rem', fontWeight: 800, padding: '8px 16px', background: 'rgba(255, 255, 255, 0.08)', color: 'white', borderColor: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '8px' }}>
-                                🔗 Share App
+                            <button onClick={() => { navigator.clipboard.writeText(window.location.href); alert('App URL copied to clipboard!'); }} className="storm-btn" style={{ fontSize: '0.7rem', fontWeight: 800, padding: '6px 16px', background: 'rgba(255, 255, 255, 0.08)', color: 'white', borderColor: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '8px' }}>
+                                🔗 {t('shareSetup')}
                             </button>
                         </div>
                     </div>
