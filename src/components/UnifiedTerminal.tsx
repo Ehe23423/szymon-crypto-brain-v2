@@ -120,10 +120,10 @@ export const UnifiedTerminal: React.FC = () => {
                     <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
                         BD <span style={{ color: 'var(--accent-purple)' }}>BRAIN</span>
                     </h1>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px' }}>
-                        CREATED BY SZYMON BIAŁEK & DAMIAN SIODŁAK
+                    <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '4px' }}>
+                        First Ever Exchange deal calculator for Crypto Business developers - one to help us all
                     </div>
-                    <div style={{ fontSize: '0.6rem', color: 'var(--accent-emerald)', fontWeight: 700, marginTop: '2px' }}>
+                    <div style={{ fontSize: '0.55rem', color: 'var(--accent-emerald)', fontWeight: 700, marginTop: '2px', opacity: 0.8 }}>
                         TELEGRAM: @ostryopos
                     </div>
                 </div>
