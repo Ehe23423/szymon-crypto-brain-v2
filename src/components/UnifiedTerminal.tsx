@@ -121,7 +121,9 @@ export const UnifiedTerminal: React.FC = () => {
                 flexShrink: 0,
                 padding: '12px 20px',
                 borderBottom: '1px solid rgba(255,255,255,0.07)',
-                background: 'linear-gradient(135deg,rgba(139,92,246,0.08) 0%,rgba(0,0,0,0.4) 100%)',
+                background: 'linear-gradient(135deg, rgba(20,20,35,0.65) 0%, rgba(10,10,20,0.85) 100%)',
+                backdropFilter: 'blur(40px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(150%)',
             }} className="terminal-header">
                 <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1 }}>
