@@ -151,10 +151,12 @@ export const UnifiedTerminal: React.FC = () => {
                                 fontWeight: 800,
                                 color: chip.color,
                                 whiteSpace: 'nowrap',
-                                boxShadow: `0 0 20px ${chip.glow}44, inset 0 0 10px ${chip.glow}22`,
-                                textShadow: `0 0 10px ${chip.glow}aa`,
-                                border: `1px solid ${chip.glow}66`
+                                boxShadow: `0 0 25px ${chip.glow}55, inset 0 0 15px ${chip.glow}22, 0 0 50px ${chip.glow}11`,
+                                textShadow: `0 0 12px ${chip.glow}, 0 0 4px #fff`,
+                                border: `1px solid ${chip.glow}aa`,
+                                position: 'relative'
                             }}>
+                                <div style={{ position: 'absolute', inset: 0, borderRadius: '6px', background: `linear-gradient(45deg, ${chip.glow}22, transparent)`, pointerEvents: 'none' }} />
                                 {chip.label}
                             </div>
                         ))}
@@ -190,16 +192,16 @@ export const UnifiedTerminal: React.FC = () => {
 
                 {/* LEFT SIDEBAR */}
                 <div style={{
-                    width: '290px',
+                    width: '300px',
                     flexShrink: 0,
-                    overflowY: 'visible',
-                    padding: '14px',
+                    borderRight: '1px solid rgba(255,255,255,0.06)',
+                    overflowY: 'auto',
+                    padding: '16px',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '12px',
-                    background: 'rgba(0,0,0,0.15)',
-                    height: 'auto',
-                    minHeight: '100%'
+                    gap: '16px',
+                    background: 'rgba(0,0,0,0.18)',
+                    scrollbarWidth: 'none',
                 }} className="layout-sidebar">
                     <Panel title="🎚️ Parameters">
                         <DealSimulator params={params} updateParam={updateParam} />
