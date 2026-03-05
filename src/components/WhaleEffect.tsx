@@ -3,15 +3,18 @@ import { useEffect, useState } from 'react';
 export function WhaleEffect({ isWhale }: { isWhale: boolean }) {
     const [showAlert, setShowAlert] = useState(false);
 
+    const [hasPlayed, setHasPlayed] = useState(false);
+
     useEffect(() => {
-        if (isWhale) {
+        if (isWhale && !hasPlayed) {
             setShowAlert(true);
+            setHasPlayed(true);
             const timer = setTimeout(() => setShowAlert(false), 3000);
             return () => clearTimeout(timer);
         }
-    }, [isWhale]);
+    }, [isWhale, hasPlayed]);
 
-    if (!isWhale) return null;
+    if (!isWhale || (!showAlert && hasPlayed)) return null;
 
     return (
         <>
