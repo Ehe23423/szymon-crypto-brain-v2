@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 export function SolanaRain() {
     const [particles, setParticles] = useState<{ id: number; left: string; duration: string }[]>([]);
