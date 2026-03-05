@@ -37,6 +37,13 @@ const TINTS: Record<string, React.CSSProperties> = {
     roast: { borderColor: 'rgba(255,184,108,0.4)', background: 'linear-gradient(135deg,rgba(255,184,108,0.1) 0%,rgba(255,85,85,0.05) 50%,rgba(26,25,45,0.9) 100%)' },
 };
 
+const PRESET_SCENARIOS = [
+    { label: "Vanilla Agency", params: { V: 10_000_000, F: 0.035, P: 50, S: 30, R: 0, I: 0, B: 0, safetyThreshold: 15 } },
+    { label: "High Rebate Trap", params: { V: 20_000_000, F: 0.04, P: 50, S: 30, R: 20000, I: 5000, B: 0, safetyThreshold: 15 } },
+    { label: "Aggressive Hunter", params: { V: 50_000_000, F: 0.04, P: 50, S: 40, R: 0, I: 0, B: 0, safetyThreshold: 15 } },
+    { label: "Whale Client (M-Tier)", params: { V: 250_000_000, F: 0.02, P: 50, S: 20, R: 0, I: 0, B: 0, safetyThreshold: 5 } },
+];
+
 function Panel({ title, children, tint, noPad }: { title: React.ReactNode; children: React.ReactNode; tint?: string; noPad?: boolean }) {
     return (
         <div style={{
@@ -128,7 +135,21 @@ export const UnifiedTerminal: React.FC = () => {
                         TELEGRAM: @ostryopos
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch', flexWrap: 'wrap' }}>
+                    <select
+                        onChange={(e) => {
+                            if (e.target.value) setParams(PRESET_SCENARIOS[parseInt(e.target.value)].params);
+                        }}
+                        defaultValue=""
+                        className="storm-btn"
+                        style={{ fontSize: '0.65rem', padding: '0 8px', background: 'rgba(139, 92, 246, 0.2)', borderRadius: '4px', border: '1px solid rgba(139, 92, 246, 0.4)', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: 700 }}
+                    >
+                        <option value="" disabled>⚡ LOAD SCENARIO</option>
+                        {PRESET_SCENARIOS.map((s, i) => (
+                            <option key={i} value={i} style={{ background: '#111827' }}>{s.label}</option>
+                        ))}
+                    </select>
+
                     <select
                         value={selectedRainCoin}
                         onChange={(e) => setSelectedRainCoin(e.target.value as CoinType)}
