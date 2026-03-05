@@ -18,17 +18,22 @@ export function DealSimulator({ params, updateParam }: Props) {
             {/* 1. VOLUME */}
             <div className="control-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>MONTHLY VOLUME (USD)</label>
+                    <label
+                        title="Monthly Trading Volume (USD)"
+                        style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em', cursor: 'help' }}
+                    >
+                        MONTHLY VOLUME (USD)
+                    </label>
                     <span style={{ color: 'var(--accent-blue)', fontWeight: 900, fontSize: '1rem' }}>{formatUSD(params.V)}</span>
                 </div>
                 <input
                     className="styled-range range-blue"
                     type="range"
                     min="1000000"
-                    max="200000000"
+                    max="250000000"
                     step="1000000"
                     value={params.V}
-                    style={{ '--val': pct(params.V, 1000000, 200000000) } as React.CSSProperties}
+                    style={{ '--val': pct(params.V, 1000000, 250000000) } as React.CSSProperties}
                     onChange={(e) => updateParam('V', parseInt(e.target.value))}
                 />
             </div>
@@ -36,7 +41,12 @@ export function DealSimulator({ params, updateParam }: Props) {
             {/* 2. BLENDED FEE (%) */}
             <div className="control-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <label style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>BLENDED FEE (%)</label>
+                    <label
+                        title="Average trading fee rate across all tiers"
+                        style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
+                    >
+                        BLENDED FEE (%)
+                    </label>
                     <span style={{ color: 'var(--accent-cyan)', fontWeight: 900, fontSize: '1.2rem' }}>{params.F}%</span>
                 </div>
                 <input
@@ -57,7 +67,12 @@ export function DealSimulator({ params, updateParam }: Props) {
             {/* 3. PARTNER SHARE (%) */}
             <div className="control-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <label style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>PARTNER SHARE (%)</label>
+                    <label
+                        title="Percentage of total fee pool for the Agency"
+                        style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
+                    >
+                        PARTNER SHARE (%)
+                    </label>
                     <span style={{ color: 'var(--accent-emerald)', fontWeight: 900, fontSize: '1.2rem' }}>{params.P}%</span>
                 </div>
                 <input
@@ -75,7 +90,12 @@ export function DealSimulator({ params, updateParam }: Props) {
             {/* 4. SUB-SPLIT (%) */}
             <div className="control-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <label style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>SUB-SPLIT (%)</label>
+                    <label
+                        title="KOL/Creator's share of the Partner Pool"
+                        style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
+                    >
+                        SUB-SPLIT (%)
+                    </label>
                     <span style={{ color: 'var(--accent-purple)', fontWeight: 900, fontSize: '1.2rem' }}>{params.S}%</span>
                 </div>
                 <input
@@ -93,7 +113,12 @@ export function DealSimulator({ params, updateParam }: Props) {
             {/* FIXED COSTS GRID */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '16px' }} className="vars-grid">
                 <div className="control-group">
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>Retainer (USD)</label>
+                    <label
+                        title="Fixed monthly payment to Partner"
+                        style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)', cursor: 'help' }}
+                    >
+                        Retainer (USD)
+                    </label>
                     <input
                         type="number"
                         value={params.R}

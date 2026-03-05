@@ -13,12 +13,12 @@ import { ProposalGenerator } from './ProposalGenerator';
 import { StructuralWarnings } from './StructuralWarnings';
 import { NegotiationRulebook } from './NegotiationRulebook';
 import { MarginSafetyLock } from './MarginSafetyLock';
-
-
-
+import { Glossary } from './Glossary';
 import { PartnerRevenueSim } from './PartnerRevenueSim';
 import { DealRoast } from './DealRoast';
 import { DealAssistant } from './DealAssistant';
+import { WhaleEffect } from './WhaleEffect';
+import { SolanaRain } from './SolanaRain';
 
 type TabId = 'hunter' | 'agency' | 'roast';
 
@@ -28,17 +28,15 @@ const TABS: { id: TabId; emoji: string; label: string; color: string }[] = [
     { id: 'roast', emoji: '🔥', label: 'ROAST', color: '#f97316' },
 ];
 
-// Tint styles per variant
 const TINTS: Record<string, React.CSSProperties> = {
-    hunter: { borderColor: 'rgba(16,185,129,0.25)', background: 'linear-gradient(135deg,rgba(16,185,129,0.06) 0%,rgba(17,24,39,0.6) 100%)' },
-    blue: { borderColor: 'rgba(96,165,250,0.25)', background: 'linear-gradient(135deg,rgba(59,130,246,0.07) 0%,rgba(17,24,39,0.6) 100%)' },
-    purple: { borderColor: 'rgba(167,139,250,0.25)', background: 'linear-gradient(135deg,rgba(139,92,246,0.08) 0%,rgba(17,24,39,0.6) 100%)' },
-    warning: { borderColor: 'rgba(245,158,11,0.3)', background: 'linear-gradient(135deg,rgba(245,158,11,0.06) 0%,rgba(17,24,39,0.6) 100%)' },
-    danger: { borderColor: 'rgba(239,68,68,0.3)', background: 'linear-gradient(135deg,rgba(239,68,68,0.06) 0%,rgba(17,24,39,0.6) 100%)' },
-    roast: { borderColor: 'rgba(249,115,22,0.35)', background: 'linear-gradient(135deg,rgba(249,115,22,0.08) 0%,rgba(239,68,68,0.04) 50%,rgba(17,24,39,0.6) 100%)' },
+    hunter: { borderColor: 'rgba(80,250,123,0.3)', background: 'linear-gradient(135deg,rgba(80,250,123,0.08) 0%,rgba(26,25,45,0.9) 100%)' },
+    blue: { borderColor: 'rgba(139,233,253,0.3)', background: 'linear-gradient(135deg,rgba(139,233,253,0.08) 0%,rgba(26,25,45,0.9) 100%)' },
+    purple: { borderColor: 'rgba(189,147,249,0.3)', background: 'linear-gradient(135deg,rgba(189,147,249,0.1) 0%,rgba(26,25,45,0.9) 100%)' },
+    warning: { borderColor: 'rgba(255,184,108,0.3)', background: 'linear-gradient(135deg,rgba(255,184,108,0.08) 0%,rgba(26,25,45,0.9) 100%)' },
+    danger: { borderColor: 'rgba(255,85,85,0.3)', background: 'linear-gradient(135deg,rgba(255,85,85,0.08) 0%,rgba(26,25,45,0.9) 100%)' },
+    roast: { borderColor: 'rgba(255,184,108,0.4)', background: 'linear-gradient(135deg,rgba(255,184,108,0.1) 0%,rgba(255,85,85,0.05) 50%,rgba(26,25,45,0.9) 100%)' },
 };
 
-// Panel wrapper
 function Panel({ title, children, tint, noPad }: { title: React.ReactNode; children: React.ReactNode; tint?: string; noPad?: boolean }) {
     return (
         <div style={{
@@ -50,6 +48,7 @@ function Panel({ title, children, tint, noPad }: { title: React.ReactNode; child
             padding: noPad ? '14px' : '20px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
             ...(tint ? TINTS[tint] : {}),
+            overflow: 'hidden'
         }}>
             <div style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: noPad ? '10px' : '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {title}
@@ -67,6 +66,7 @@ export const UnifiedTerminal: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabId>('hunter');
 
     const metrics = useMemo(() => calculateDealMetrics(params), [params]);
+    const { RainComponent, triggerRain } = SolanaRain();
 
     const dealScore = useMemo(() => {
         const buf = metrics.marginBuffer * 100;
@@ -97,6 +97,8 @@ export const UnifiedTerminal: React.FC = () => {
             color: 'var(--text-primary)',
             fontFamily: 'var(--font-main)',
         }}>
+            <WhaleEffect isWhale={params.V >= 200000000} />
+            {RainComponent}
 
             {/* ══ TICKER ══ */}
             <div style={{ flexShrink: 0 }}>
@@ -106,59 +108,62 @@ export const UnifiedTerminal: React.FC = () => {
             {/* ══ HEADER ══ */}
             <div style={{
                 flexShrink: 0,
-                padding: '10px 20px',
+                padding: '12px 20px',
                 borderBottom: '1px solid rgba(255,255,255,0.07)',
-                background: 'linear-gradient(135deg,rgba(139,92,246,0.05) 0%,rgba(0,0,0,0.3) 100%)',
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap',
+                background: 'linear-gradient(135deg,rgba(139,92,246,0.08) 0%,rgba(0,0,0,0.4) 100%)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px', flexWrap: 'wrap',
             }} className="terminal-header">
-                <div>
-                    <h1 style={{ margin: 0, fontSize: '1rem', fontWeight: 900, letterSpacing: '0.08em' }}>
-                        SZYMON{' '}
-                        <span style={{ background: 'linear-gradient(90deg,#3b82f6,#a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>CRYPTO</span>
-                        {' '}BRAIN
+                <div style={{ flex: 1 }}>
+                    <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
+                        SZYMON <span style={{ color: 'var(--accent-purple)' }}>CRYPTO</span> BRAIN
                     </h1>
-                    <div style={{ fontSize: '0.55rem', color: 'rgba(148,163,184,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '2px' }}>
-                        Institutional BD Terminal · 64-Module Engine
+                    <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px' }}>
+                        CREATED BY SZYMON BIAŁEK & DAMIAN SIODŁAK
                     </div>
-                    <div style={{ fontSize: '0.45rem', color: 'var(--text-secondary)', letterSpacing: '0.05em', marginTop: '4px', textTransform: 'uppercase' }} className="header-credits">
-                        Stworzone przez Szymon Białek z pomocą Damian Siodłak · Niezależny Terminal
+                    <div style={{ fontSize: '0.6rem', color: 'var(--accent-emerald)', fontWeight: 700, marginTop: '2px' }}>
+                        TELEGRAM: @ostryopos
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                    {[
-                        { label: metrics.status, color: sColor },
-                        { label: `Score ${dealScore}/100`, color: '#fff' },
-                        { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: '#94a3b8' },
-                    ].map(chip => (
-                        <div key={chip.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px', padding: '3px 10px', fontSize: '0.65rem', fontWeight: 700, color: chip.color, whiteSpace: 'nowrap' }}>
-                            {chip.label}
-                        </div>
-                    ))}
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <button
+                        className="storm-btn"
+                        data-variant="hunter"
+                        style={{ fontSize: '0.65rem' }}
+                        onClick={triggerRain}
+                    >
+                        ☀️ MAKE IT RAIN SOL
+                    </button>
+                    <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
+                        {[
+                            { label: metrics.status, color: sColor },
+                            { label: `Score ${dealScore}/100`, color: '#fff' },
+                            { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: '#94a3b8' },
+                        ].map(chip => (
+                            <div key={chip.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '4px 12px', fontSize: '0.7rem', fontWeight: 800, color: chip.color, whiteSpace: 'nowrap' }}>
+                                {chip.label}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {/* ══ TABS ══ */}
-            <div style={{
+            <div className="tab-container" style={{
                 flexShrink: 0,
-                display: 'flex', gap: '6px', padding: '8px 20px',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
-                background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(10px)',
+                display: 'flex', gap: '8px', padding: '8px 20px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(0, 0, 0, 0.2)', backdropFilter: 'blur(10px)',
                 alignItems: 'center',
+                overflowX: 'auto'
             }}>
-                <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', marginRight: '4px' }}>MODE</span>
+                <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.2)', textTransform: 'uppercase', marginRight: '4px' }}>MODE</span>
                 {TABS.map(t => (
                     <button
                         key={t.id}
                         onClick={() => setActiveTab(t.id)}
-                        style={{
-                            padding: '6px 14px', borderRadius: '8px', cursor: 'pointer',
-                            border: activeTab === t.id ? `1px solid ${t.color}60` : '1px solid rgba(255,255,255,0.07)',
-                            background: activeTab === t.id ? `${t.color}1a` : 'rgba(255,255,255,0.02)',
-                            color: activeTab === t.id ? t.color : 'rgba(255,255,255,0.38)',
-                            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.08em',
-                            transition: 'all 0.15s', fontFamily: 'var(--font-main)',
-                            boxShadow: activeTab === t.id ? `0 0 12px ${t.color}25` : 'none',
-                        }}
+                        className={`storm-btn ${activeTab === t.id ? 'active' : ''}`}
+                        data-variant={t.id}
+                        style={{ padding: '8px 16px', fontSize: '0.7rem' }}
                     >
                         {t.emoji} {t.label}
                     </button>
@@ -193,15 +198,11 @@ export const UnifiedTerminal: React.FC = () => {
                                 <button
                                     key={t.name}
                                     onClick={() => setParams(prev => ({ ...prev, ...t.params }))}
+                                    className="storm-btn"
                                     style={{
-                                        width: '100%', textAlign: 'left', padding: '8px 12px',
-                                        background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
-                                        borderRadius: '8px', color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem',
-                                        fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-main)',
-                                        transition: 'all 0.15s',
+                                        width: '100%', justifyContent: 'flex-start', padding: '10px 14px',
+                                        fontSize: '0.7rem', background: 'rgba(255,255,255,0.03)'
                                     }}
-                                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
-                                    onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
                                 >
                                     {t.name}
                                 </button>
@@ -211,6 +212,12 @@ export const UnifiedTerminal: React.FC = () => {
                     <Panel title="🛡️ Safety Protocol" noPad>
                         <MarginSafetyLock value={params.safetyThreshold} onChange={v => updateParam('safetyThreshold', v)} />
                     </Panel>
+                    <Panel title="📖 Terminal Glossary" noPad>
+                        <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', minHeight: '100px' }}>
+                            <Glossary />
+                        </div>
+                    </Panel>
+                    <div style={{ height: '40px' }} /> {/* Extra space at bottom of sidebar */}
 
                 </div>
 
@@ -297,8 +304,8 @@ export const UnifiedTerminal: React.FC = () => {
                     )}
 
                     {/* Footer */}
-                    <div style={{ marginTop: '20px', paddingBottom: '8px', textAlign: 'center', color: 'rgba(255,255,255,0.12)', fontSize: '0.52rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                        STORMMEDIA BD ENGINE · {tab.emoji} {tab.label} · V4.0 · TERMINAL ACTIVE
+                    <div style={{ marginTop: '20px', paddingBottom: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.15)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                        SZYMON CRYPTO BRAIN ACTIVE · {tab.emoji} {tab.label} · V4.2 PRO · TERMINAL ACTIVE
                     </div>
                 </div>
             </div>

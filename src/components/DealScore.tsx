@@ -14,15 +14,19 @@ interface ScoreComponent {
 
 function computeScoreComponents(params: DealParams, metrics: DealResult): ScoreComponent[] {
     // 1. Margin buffer: 25 pts
-    // 30%+ = full 25, 15-30% = proportional, <15% = proportional down to 0
+    // Full points if Margin >= Threshold + 15
     const marginPct = metrics.marginBuffer * 100;
+    const thresh = params.safetyThreshold;
     let marginScore: number;
-    if (marginPct >= 30) {
+
+    if (marginPct >= thresh + 15) {
         marginScore = 25;
-    } else if (marginPct >= 15) {
-        marginScore = ((marginPct - 15) / 15) * 25;
+    } else if (marginPct >= thresh) {
+        // Linear scale between thresh and thresh+15
+        marginScore = ((marginPct - thresh) / 15) * 25;
     } else {
-        marginScore = (marginPct / 15) * 25;
+        // Proportional score for being below threshold (dangerous)
+        marginScore = Math.max(0, (marginPct / thresh) * 10);
     }
 
     // 2. Tier protection: 15 pts

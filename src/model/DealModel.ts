@@ -66,10 +66,18 @@ export function calculateDealMetrics(p: DealParams): DealResult {
     const isBlocked = bufferPct < safetyThreshold;
     let status: DealResult['status'] = 'CRITICAL';
 
-    if (isBlocked) status = 'BLOCKED';
-    else if (bufferPct >= 30) status = 'SAFE';
-    else if (bufferPct >= 15) status = 'WARNING';
-    else status = 'CRITICAL';
+    if (isBlocked) {
+        status = 'BLOCKED';
+    } else if (bufferPct >= (safetyThreshold + 15)) {
+        // Significantly above threshold
+        status = 'SAFE';
+    } else if (bufferPct >= (safetyThreshold + 5)) {
+        // Comfortably above threshold
+        status = 'WARNING';
+    } else {
+        // Barely above threshold
+        status = 'CRITICAL';
+    }
 
     const retainedPer1M = volume > 0 ? (exchangeRetained / volume) * 1_000_000 : 0;
 
@@ -82,7 +90,7 @@ export function calculateDealMetrics(p: DealParams): DealResult {
         netProfit,
         marginBuffer,
         breakEvenVolume,
-        isSafe: !isBlocked && bufferPct >= 15,
+        isSafe: !isBlocked,
         isBlocked,
         status
     };

@@ -1,33 +1,112 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@500;700&display=swap');
-
 :root {
-  /* === V1 COLOR PALETTE (RESTORED) === */
-  --bg-dark: #0B0F19;
-  --bg-card: rgba(17, 24, 39, 0.6);
+  /* === PUZZLE COLOR PALETTE (REBRAND) === */
+  --bg-dark: #0e0d1e;
+  --bg-card: rgba(26, 25, 45, 0.7);
 
-  --accent-blue: #3B82F6;
-  --accent-purple: #a855f7;
-  --accent-orange: #f97316;
-  --accent-pink: #EC4899;
-  --accent-emerald: #10B981;
-  --accent-rose: #EF4444;
-  --accent-amber: #F59E0B;
-  --accent-cyan: #06B6D4;
+  --accent-blue: #8be9fd;
+  /* Puzzle Cyan */
+  --accent-purple: #bd93f9;
+  /* Puzzle Lavender */
+  --accent-orange: #ffb86c;
+  /* Puzzle Orange */
+  --accent-pink: #ff79c6;
+  /* Puzzle Pink */
+  --accent-emerald: #50fa7b;
+  /* Puzzle Mint */
+  --accent-rose: #ff5555;
+  /* Puzzle Red */
+  --accent-amber: #f1fa8c;
+  /* Puzzle Yellow */
+  --accent-cyan: #8be9fd;
+  /* Puzzle Cyan */
 
-  --text-primary: #f8fafc;
-  --text-secondary: rgba(148, 163, 184, 0.7);
+  --text-primary: #f8f8f2;
+  --text-secondary: #6272a4;
 
-  --border-light: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(59, 130, 246, 0.3);
+  --border-light: rgba(255, 255, 255, 0.05);
+  --border-hover: rgba(189, 147, 249, 0.4);
 
   /* Glows */
-  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
-  --glow-emerald: 0 0 20px rgba(16, 185, 129, 0.15);
+  --glow-blue: 0 0 20px rgba(139, 233, 253, 0.2);
+  --glow-emerald: 0 0 20px rgba(80, 250, 123, 0.2);
 
   --font-main: 'Inter', system-ui, sans-serif;
   --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: all 0.25s ease;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes whaleSwim {
+  0% {
+    transform: translateX(110vw) scaleX(1);
+  }
+
+  100% {
+    transform: translateX(-110vw) scaleX(1);
+  }
+}
+
+@keyframes solFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0.2;
+  }
+}
+
+.whale-overlay {
+  position: fixed;
+  top: 40%;
+  left: 0;
+  width: 100vw;
+  pointer-events: none;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whale-sprite {
+  font-size: 15rem;
+  animation: whaleSwim 12s linear infinite;
+  text-shadow: 0 0 50px rgba(139, 233, 253, 0.6);
+  filter: drop-shadow(0 0 20px var(--accent-blue));
+}
+
+.sol-coin {
+  position: fixed;
+  top: -50px;
+  width: 40px;
+  height: 40px;
+  background-image: url('https://cryptologos.cc/logos/solana-sol-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10001;
+  pointer-events: none;
+  animation: solFall 2.5s linear forwards;
+}
+
+.whale-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(14, 13, 30, 0.9);
+  border: 2px solid var(--accent-blue);
+  padding: 20px 40px;
+  border-radius: 20px;
+  color: var(--accent-blue);
+  font-family: 'Courier New', monospace;
+  font-weight: 900;
+  font-size: 2rem;
+  z-index: 10002;
+  text-align: center;
+  box-shadow: 0 0 50px var(--accent-blue);
+  animation: tabFadeIn 0.5s ease-out;
 }
 
 * {
@@ -380,36 +459,87 @@ body {
   }
 }
 
-/* Glass Buttons */
-.glass-btn {
-  background: rgba(255, 255, 255, 0.04);
+/* Storm Premium Buttons */
+.storm-btn {
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  padding: 9px 16px;
-  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 18px;
+  border-radius: 12px;
   cursor: pointer;
   font-family: var(--font-main);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: var(--transition-smooth);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.glass-btn:hover {
-  background: rgba(61, 155, 255, 0.1);
-  border-color: rgba(61, 155, 255, 0.3);
-  color: var(--text-primary);
-  transform: translateY(-1px);
+.storm-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  transition: 0.5s;
 }
 
-.glass-btn.active {
-  background: rgba(61, 155, 255, 0.18);
-  border-color: rgba(61, 155, 255, 0.5);
+.storm-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-weight: 600;
-  box-shadow: 0 0 12px rgba(61, 155, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.storm-btn:hover::before {
+  left: 100%;
+}
+
+.storm-btn:active {
+  transform: translateY(0);
+}
+
+.storm-btn.active {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), inset 0 0 10px rgba(59, 130, 246, 0.1);
+}
+
+.storm-btn[data-variant="hunter"].active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: var(--accent-emerald);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.storm-btn[data-variant="agency"].active {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: rgba(96, 165, 250, 0.4);
+  color: var(--accent-blue);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.storm-btn[data-variant="roast"].active {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: rgba(249, 115, 22, 0.4);
+  color: #f97316;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
 }
 
 h1,
@@ -1462,17 +1592,21 @@ table {
   .terminal-header {
     flex-direction: column !important;
     align-items: flex-start !important;
-    padding: 12px 16px !important;
-    gap: 8px !important;
+    padding: 10px 16px !important;
+    gap: 12px !important;
   }
 
   .terminal-header h1 {
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
   }
 
   .header-credits {
-    font-size: 0.4rem !important;
-    line-height: 1.4 !important;
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none !important;
   }
 }
 

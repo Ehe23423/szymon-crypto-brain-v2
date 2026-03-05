@@ -26,18 +26,18 @@ export function CryptoTicker() {
 
     useEffect(() => {
         const fetchPrices = async () => {
-            // Try BingX first
+            // Try EXCHANGE API first
             try {
                 const symbolQueries = COINS.map(s => `symbol=${s}`).join('&');
-                // BingX's public ticker endpoint (no auth needed for public market data)
-                const bingxRes = await fetch(
+                // Exchange's public ticker endpoint
+                const exchRes = await fetch(
                     `https://open-api.bingx.com/openApi/spot/v1/ticker/24hr?${symbolQueries}`,
                     { cache: 'no-store' }
                 );
-                if (bingxRes.ok) {
-                    const bingxData = await bingxRes.json();
-                    if (bingxData?.data && Array.isArray(bingxData.data) && bingxData.data.length > 0) {
-                        const formatted = bingxData.data.map((item: any) => ({
+                if (exchRes.ok) {
+                    const exchData = await exchRes.json();
+                    if (exchData?.data && Array.isArray(exchData.data) && exchData.data.length > 0) {
+                        const formatted = exchData.data.map((item: any) => ({
                             symbol: (item.symbol || '').replace('-USDT', ''),
                             price: parseFloat(item.lastPrice || item.closePrice || '0'),
                             change: parseFloat(item.priceChangePercent || '0'),
@@ -51,7 +51,7 @@ export function CryptoTicker() {
                     }
                 }
             } catch {
-                // BingX failed, fall through to Binance
+                // Primary source failed, fall through to Binance
             }
 
             // Fallback to Binance
@@ -71,7 +71,7 @@ export function CryptoTicker() {
                 setIsLive(true);
                 setLastUpdate(new Date());
             } catch (e) {
-                console.error('Both BingX and Binance price fetch failed', e);
+                console.error('All price fetch sources failed', e);
             }
         };
 

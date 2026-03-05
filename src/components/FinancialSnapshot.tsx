@@ -69,11 +69,42 @@ export function FinancialSnapshot({ params, metrics }: Props) {
                     <span className="label" style={{ fontSize: '0.6rem' }}>Retained</span>
                     <span className="value mask-sensitive" style={{ fontSize: '1rem' }}>{formatUSD(metrics.exchangeRetained)}</span>
                 </div>
-                <div className="metric-card" style={{ padding: '16px', background: 'rgba(255,255,255,0.02)' }}>
-                    <span className="label" style={{ fontSize: '0.65rem' }}>Margin Buffer</span>
-                    <span className={`value ${metrics.isSafe ? 'positive' : 'negative'}`} style={{ fontSize: '1.2rem' }}>
-                        {formatPct(metrics.marginBuffer)}
-                    </span>
+                <div className="metric-card" style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', alignItems: 'stretch' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <span className="label" style={{ fontSize: '0.65rem', margin: 0 }}>Margin Buffer</span>
+                        <span className={`value ${metrics.isSafe ? 'positive' : 'negative'}`} style={{ fontSize: '1.2rem' }}>
+                            {formatPct(metrics.marginBuffer)}
+                        </span>
+                    </div>
+
+                    {/* Visual Comparison Bar */}
+                    <div style={{ height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', position: 'relative', margin: '8px 0' }}>
+                        {/* Target Marker */}
+                        <div style={{
+                            position: 'absolute',
+                            left: `${params.safetyThreshold}%`,
+                            top: '-4px',
+                            bottom: '-4px',
+                            width: '2px',
+                            background: '#fff',
+                            zIndex: 2,
+                            boxShadow: '0 0 5px #fff'
+                        }} title={`Safety Threshold: ${params.safetyThreshold}%`} />
+
+                        {/* Actual Fill */}
+                        <div style={{
+                            width: `${Math.min(100, metrics.marginBuffer * 100)}%`,
+                            height: '100%',
+                            background: metrics.marginBuffer * 100 >= params.safetyThreshold ? 'var(--accent-emerald)' : 'var(--accent-rose)',
+                            borderRadius: '2px',
+                            transition: 'all 0.4s ease'
+                        }} />
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.55rem', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <span>Limit: {params.safetyThreshold}%</span>
+                        <span>Actual: {(metrics.marginBuffer * 100).toFixed(1)}%</span>
+                    </div>
                 </div>
             </div>
 

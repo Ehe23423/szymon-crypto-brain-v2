@@ -54,12 +54,12 @@ export function StructuralWarnings({ params, metrics }: Props) {
     }
 
     // Moduł 40/54 — Margin Collapse Detector
-    const retainedPer1M = (params.F / 100) * (params.P / 100) * (1 - params.S / 100) * 1_000_000;
-    if (retainedPer1M < 80) {
+    const retainedPer1M = metrics.retainedPer1M;
+    if (retainedPer1M < 75) {
         warnings.push({
             id: 'margin-collapse',
             label: 'Margin Collapse Risk',
-            text: `MARGIN COLLAPSE RISK - Retained per $1M below $80 safety floor (currently $${retainedPer1M.toFixed(2)}).`,
+            text: `MARGIN COLLAPSE RISK - Exchange retention per $1M below $75 safety floor (currently $${retainedPer1M.toFixed(0)}).`,
             severity: 'high'
         });
     }

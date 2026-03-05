@@ -56,4 +56,13 @@ describe('Calculator Core Logic', () => {
             expect(metricsHighThreshold.status).toBe('BLOCKED');
         }
     });
+
+    it('should scale status relative to safetyThreshold', () => {
+        const params: DealParams = { ...baseParams, F: 0.05, P: 50, safetyThreshold: 20 };
+        const m = calculateDealMetrics(params); // Margin should be ~25% (SAFE in old logic, but relative here)
+
+        // 25% is > 20% threshold, but < 20+15 (SAFE floor)
+        expect(m.status).not.toBe('BLOCKED');
+        expect(m.status).toBe('CRITICAL'); // Barely above 20%
+    });
 });

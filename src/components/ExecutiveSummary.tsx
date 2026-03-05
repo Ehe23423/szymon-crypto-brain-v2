@@ -61,16 +61,12 @@ competitive upside for the partner at current fee compression levels.
             <div style={{ display: 'flex', gap: '12px' }}>
                 <button
                     onClick={copyToClipboard}
+                    className="storm-btn"
                     style={{
                         flex: 1,
                         padding: '12px',
                         background: 'var(--accent-blue)',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '8px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                        transition: 'var(--transition-smooth)'
+                        color: '#fff'
                     }}
                 >
                     Copy Text Summary

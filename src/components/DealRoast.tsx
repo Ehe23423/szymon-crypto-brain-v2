@@ -145,10 +145,16 @@ export const DealRoast: React.FC<Props> = ({ params, metrics, dealScore }) => {
                     <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 14px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>
                         Deal Score: <strong style={{ color: tier.color }}>{dealScore}/100</strong>
                     </span>
-                    <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 14px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>
+                    <span
+                        title="Monthly Trading Volume (USD)"
+                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 14px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', cursor: 'help' }}
+                    >
                         V: <strong style={{ color: '#fff' }}>${(params.V / 1e6).toFixed(1)}M</strong>
                     </span>
-                    <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 14px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>
+                    <span
+                        title="Safety buffer after all payouts and costs"
+                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 14px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', cursor: 'help' }}
+                    >
                         Margin: <strong style={{ color: metrics.marginBuffer * 100 > 20 ? '#10b981' : '#ef4444' }}>{(metrics.marginBuffer * 100).toFixed(1)}%</strong>
                     </span>
                 </div>
