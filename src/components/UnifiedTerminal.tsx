@@ -120,6 +120,9 @@ export const UnifiedTerminal: React.FC = () => {
                     <div style={{ fontSize: '0.55rem', color: 'rgba(148,163,184,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '2px' }}>
                         Institutional BD Terminal · 64-Module Engine
                     </div>
+                    <div style={{ fontSize: '0.45rem', color: 'var(--text-secondary)', letterSpacing: '0.05em', marginTop: '4px', textTransform: 'uppercase' }}>
+                        Stworzone przez Szymon Białek z pomocą Damian Siodłak · Strona niepowiązana z BingX
+                    </div>
                 </div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                     {[
