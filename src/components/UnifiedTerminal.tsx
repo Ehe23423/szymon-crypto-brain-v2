@@ -48,7 +48,10 @@ function Panel({ title, children, tint, noPad }: { title: React.ReactNode; child
             padding: noPad ? '14px' : '20px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
             ...(tint ? TINTS[tint] : {}),
-            flexShrink: 0
+            flexShrink: 0,
+            minHeight: 'min-content',
+            display: 'flex',
+            flexDirection: 'column'
         }}>
             <div style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: noPad ? '10px' : '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {title}
