@@ -118,7 +118,7 @@ export const UnifiedTerminal: React.FC = () => {
             }} className="terminal-header">
                 <div style={{ flex: 1 }}>
                     <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
-                        SZYMON <span style={{ color: 'var(--accent-purple)' }}>CRYPTO</span> BRAIN
+                        BD <span style={{ color: 'var(--accent-purple)' }}>BRAIN</span>
                     </h1>
                     <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px' }}>
                         CREATED BY SZYMON BIAŁEK & DAMIAN SIODŁAK
