@@ -784,6 +784,22 @@ select option {
     flex-direction: column !important;
   }
 
+  .layout-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  .header-chips {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  .terminal-header {
+    padding: 16px !important;
+  }
+
   .glass-panel {
     padding: 16px !important;
   }
