@@ -132,6 +132,48 @@ export const translations = {
         },
         gloss: {
             hover: "Hover over values in the terminal for quick definitions."
+        },
+        sim: {
+            params: "PARAMETERS",
+            vol: "MONTHLY VOLUME (USD)",
+            fee: "BLENDED FEE (%)",
+            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
+            share: "PARTNER SHARE (%)",
+            sub: "SUB-SPLIT (%)",
+            retainer: "Retainer (USD)",
+            opCost: "Op Cost (USD)"
+        },
+        scoreUI: {
+            engine: "DEAL SCORE ENGINE",
+            status: "STATUS",
+            calculating: "CALCULATING..."
+        },
+        scoreDesc: {
+            blocked: "VIOLATION: Margin below safety threshold.",
+            safe: "OPTIMAL: Strong margin buffer, scalable structure.",
+            warn: "SUB-OPTIMAL: Respectable, but vulnerable to volume dips.",
+            crit: "DANGEROUS: Margin collapse imminent. Renegotiate."
+        },
+        warn: {
+            title: "STRUCTURAL WARNINGS",
+            noRisk: "No structural risks detected in current model.",
+            highRetainer: "Retainer consumes more than 100% of Net Profit. High financial dependency.",
+            beExtreme: "Break-even exceeds $30M ({val}M). Unrealistic volume target?",
+            shareCeil: "Partner share > 70% leaves minimal margin for node/opex costs.",
+            marginSafety: "Current margin ({val}%) is below locked threshold ({thresh}%).",
+            feeComp: "Blended fee below 0.02% indicates extreme discount tier logic."
+        },
+        warnLabels: {
+            retainer: "Retainer Impact",
+            breakEven: "Break-even Risk",
+            share: "Share Ceiling",
+            margin: "Margin Safety",
+            fee: "Fee Compression"
+        },
+        topBar: {
+            loadParams: "⚡ LOAD SCENARIO",
+            rain: "🌧️ MAKE IT RAIN {coin}",
+            score: "Score {val}/100"
         }
     },
     pl: {
@@ -267,6 +309,48 @@ export const translations = {
         },
         gloss: {
             hover: "Najedź na wartości w terminalu, aby zobaczyć szybkie definicje."
+        },
+        sim: {
+            params: "PARAMETRY",
+            vol: "MIESIĘCZNY WOLUMEN (USD)",
+            fee: "ŚREDNIA PROWIZJA (%)",
+            feeNote: "Uwaga: To jest łączna średnia prowizja dla wszystkich poziomów VIP.",
+            share: "UDZIAŁ PARTNERA (%)",
+            sub: "SUB-SPLIT KOL (%)",
+            retainer: "Retainer (USD)",
+            opCost: "Koszty Op (USD)"
+        },
+        scoreUI: {
+            engine: "SILNIK OCENY DEALU",
+            status: "STATUS",
+            calculating: "OBLICZANIE..."
+        },
+        scoreDesc: {
+            blocked: "NARUSZENIE: Marża poniżej progu bezpieczeństwa.",
+            safe: "OPTYMALNIE: Silny bufor marży, skalowalna struktura.",
+            warn: "SUB-OPTYMALNIE: Przyzwoicie, lecz podatne na spadki wolumenu.",
+            crit: "NIEBEZPIECZNIE: Załamanie marży nieuniknione. Renegocjuj."
+        },
+        warn: {
+            title: "OSTRZEŻENIA STRUKTURALNE",
+            noRisk: "Brak ryzyk strukturalnych w obecnym modelu.",
+            highRetainer: "Retainer pochłania >100% Zysku Netto. Wysoka zależność.",
+            beExtreme: "Break-even przekracza $30M ({val}M). Nierealny cel?",
+            shareCeil: "Udział Partnera > 70% zostawia minimalną marżę dla giełdy.",
+            marginSafety: "Obecna marża ({val}%) jest poniżej zablokowanego progu ({thresh}%).",
+            feeComp: "Prowizja < 0.02% oznacza ekstremalną logikę zniżek."
+        },
+        warnLabels: {
+            retainer: "Wpływ Retainera",
+            breakEven: "Ryzyko Break-even",
+            share: "Sufit Udziałów",
+            margin: "Bezpieczeństwo Marży",
+            fee: "Kompresja Opłat"
+        },
+        topBar: {
+            loadParams: "⚡ ZAŁADUJ SCENARIUSZ",
+            rain: "🌧️ ZRÓB DESZCZ {coin}",
+            score: "Wynik {val}/100"
         }
     },
     es: {
@@ -402,6 +486,48 @@ export const translations = {
         },
         gloss: {
             hover: "Pase el cursor sobre los valores en el terminal para definiciones rápidas."
+        },
+        sim: {
+            params: "PARÁMETROS",
+            vol: "VOLUMEN MENSUAL (USD)",
+            fee: "TARIFA MIXTA (%)",
+            feeNote: "Nota: Esta es la tarifa media combinada en todos los niveles.",
+            share: "PARTE DEL SOCIO (%)",
+            sub: "SUBDIVISIÓN (%)",
+            retainer: "Retenedor (USD)",
+            opCost: "Costo Op (USD)"
+        },
+        scoreUI: {
+            engine: "MOTOR DE PUNTUACIÓN DE ACUERDOS",
+            status: "ESTADO",
+            calculating: "CALCULANDO..."
+        },
+        scoreDesc: {
+            blocked: "VIOLACIÓN: Margen por debajo del umbral de seguridad.",
+            safe: "ÓPTIMO: Fuerte margen de seguridad, estructura escalable.",
+            warn: "SUBÓPTIMO: Respetable, pero vulnerable a caídas de volumen.",
+            crit: "PELIGROSO: Colapso del margen inminente. Renegociar."
+        },
+        warn: {
+            title: "ADVERTENCIAS ESTRUCTURALES",
+            noRisk: "No se detectaron riesgos en el modelo actual.",
+            highRetainer: "El retenedor consume más del 100% de la ganancia neta.",
+            beExtreme: "Break-even excede $30M ({val}M). ¿Meta irrealista?",
+            shareCeil: "Parte > 70% deja un margen mínimo para los costos del nodo.",
+            marginSafety: "El margen ({val}%) está por debajo del umbral ({thresh}%).",
+            feeComp: "Tarifa < 0.02% indica lógica de nivel de descuento extrema."
+        },
+        warnLabels: {
+            retainer: "Impacto del Retenedor",
+            breakEven: "Riesgo de Break-even",
+            share: "Techo de Participación",
+            margin: "Seguridad de Margen",
+            fee: "Compresión de Tarifas"
+        },
+        topBar: {
+            loadParams: "⚡ CARGAR ESCENARIO",
+            rain: "🌧️ HACER QUE LLUEVA {coin}",
+            score: "Puntos {val}/100"
         }
     },
     hi: {
@@ -537,6 +663,48 @@ export const translations = {
         },
         gloss: {
             hover: "त्वरित आभाषों के लिए टर्मिनल में मानों पर होवर करें।"
+        },
+        sim: {
+            params: "पैरामीटर",
+            vol: "मासिक वॉल्यूम (USD)",
+            fee: "मिश्रित शुल्क (%)",
+            feeNote: "नोट: यह सभी टियर में संयुक्त औसत शुल्क है।",
+            share: "पार्टनर शेयर (%)",
+            sub: "सब-स्प्लिट (%)",
+            retainer: "रिटेनर (USD)",
+            opCost: "ऑप कॉस्ट (USD)"
+        },
+        scoreUI: {
+            engine: "डील स्कोर इंजन",
+            status: "स्थिति",
+            calculating: "गणना कर रहा है..."
+        },
+        scoreDesc: {
+            blocked: "उल्लंघन: मार्जिन सुरक्षा सीमा से नीचे है।",
+            safe: "इष्टतम: मजबूत मार्जिन बफर, स्केलेबल संरचना।",
+            warn: "उप-इष्टतम: सम्मानजनक, लेकिन वॉल्यूम में गिरावट के प्रति संवेदनशील।",
+            crit: "गंभीर: मार्जिन का पतन आसन्न है। पुनः बातचीत करें।"
+        },
+        warn: {
+            title: "संरचनात्मक चेतावनी",
+            noRisk: "वर्तमान मॉडल में कोई संरचनात्मक जोखिम नहीं पाया गया।",
+            highRetainer: "रिटेनर 100% से अधिक नेट प्रॉफिट की खपत करता है।",
+            beExtreme: "ब्रेक-ईवन $30M ({val}M) से अधिक है। अवास्तविक लक्ष्य?",
+            shareCeil: "शेयर 70% से अधिक होने पर नोड/ओपेक्स के लिए न्यूनतम मार्जिन बचता है।",
+            marginSafety: "वर्तमान मार्जिन ({val}%) लॉक थ्रेशोल्ड ({thresh}%) से नीचे है।",
+            feeComp: "0.02% से कम शुल्क अत्यधिक छूट टियर को दर्शाता है।"
+        },
+        warnLabels: {
+            retainer: "रिटेनर प्रभाव",
+            breakEven: "ब्रेक-ईवन जोखिम",
+            share: "शेयर सीलिंग",
+            margin: "मार्जिन सुरक्षा",
+            fee: "शुल्क दबाव"
+        },
+        topBar: {
+            loadParams: "⚡ लोड परिदृश्य",
+            rain: "🌧️ बारिश करें {coin}",
+            score: "स्कोर {val}/100"
         }
     }
 };

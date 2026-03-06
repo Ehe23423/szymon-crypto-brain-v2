@@ -6,18 +6,20 @@ export function WhaleEffect({ isWhale }: { isWhale: boolean }) {
     const [hasPlayed, setHasPlayed] = useState(false);
 
     useEffect(() => {
+        let timer: any;
         if (isWhale && !hasPlayed) {
             setShowAlert(true);
             setHasPlayed(true);
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 setShowAlert(false);
             }, 3000);
-            return () => clearTimeout(timer);
-        }
-        if (!isWhale) {
-            setHasPlayed(false); // Reset if they drop below whale level so it can trigger again
+        } else if (!isWhale) {
+            setHasPlayed(false);
             setShowAlert(false);
         }
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
     }, [isWhale, hasPlayed]);
 
     if (!isWhale && !showAlert) return null;

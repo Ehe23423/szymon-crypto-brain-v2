@@ -1,4 +1,5 @@
 import type { DealParams } from '../model/DealModel';
+import { useLanguage } from '../lib/LanguageContext';
 
 interface Props {
     params: DealParams;
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export function DealSimulator({ params, updateParam }: Props) {
+    const { t } = useLanguage();
     const formatUSD = (val: number) =>
         new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Math.round(val));
 
@@ -22,7 +24,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                         title="Monthly Trading Volume (USD)"
                         style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em', cursor: 'help' }}
                     >
-                        MONTHLY VOLUME (USD)
+                        {t('sim.vol')}
                     </label>
                     <span style={{ color: 'var(--accent-blue)', fontWeight: 900, fontSize: '1rem' }}>{formatUSD(params.V)}</span>
                 </div>
@@ -45,7 +47,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                         title="Average trading fee rate across all tiers"
                         style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
                     >
-                        BLENDED FEE (%)
+                        {t('sim.fee')}
                     </label>
                     <span style={{ color: 'var(--accent-cyan)', fontWeight: 900, fontSize: '1.2rem' }}>{params.F}%</span>
                 </div>
@@ -60,7 +62,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                     onChange={(e) => updateParam('F', parseFloat(e.target.value))}
                 />
                 <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', marginTop: '4px' }}>
-                    Note: This is the combined avg fee across all tiers and assets.
+                    {t('sim.feeNote')}
                 </div>
             </div>
 
@@ -71,7 +73,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                         title="Percentage of total fee pool for the Agency"
                         style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
                     >
-                        PARTNER SHARE (%)
+                        {t('sim.share')}
                     </label>
                     <span style={{ color: 'var(--accent-emerald)', fontWeight: 900, fontSize: '1.2rem' }}>{params.P}%</span>
                 </div>
@@ -94,7 +96,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                         title="KOL/Creator's share of the Partner Pool"
                         style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.1em', cursor: 'help' }}
                     >
-                        SUB-SPLIT (%)
+                        {t('sim.sub')}
                     </label>
                     <span style={{ color: 'var(--accent-purple)', fontWeight: 900, fontSize: '1.2rem' }}>{params.S}%</span>
                 </div>
@@ -117,7 +119,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                         title="Fixed monthly payment to Partner"
                         style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)', cursor: 'help' }}
                     >
-                        Retainer (USD)
+                        {t('sim.retainer')}
                     </label>
                     <input
                         type="number"
@@ -129,7 +131,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                 </div>
 
                 <div className="control-group">
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>Op Cost (USD)</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>{t('sim.opCost')}</label>
                     <input
                         type="number"
                         value={params.I}

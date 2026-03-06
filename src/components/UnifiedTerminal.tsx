@@ -21,11 +21,13 @@ import { WhaleEffect } from './WhaleEffect';
 import { useCryptoRain, type CoinType } from './SolanaRain';
 import { useLanguage } from '../lib/LanguageContext';
 
-type TabId = 'hunter' | 'agency' | 'roast';
+type TabId = 'hunter' | 'agency' | 'roast' | 'streamer' | 'trader';
 
 const TABS: { id: TabId; emoji: string; label: string; color: string }[] = [
     { id: 'hunter', emoji: '🎯', label: 'HUNTER', color: '#10b981' },
     { id: 'agency', emoji: '🏢', label: 'AGENCY', color: '#60a5fa' },
+    { id: 'streamer', emoji: '📺', label: 'STREAMER', color: '#ec4899' },
+    { id: 'trader', emoji: '📈', label: 'TRADER', color: '#a855f7' },
     { id: 'roast', emoji: '🔥', label: 'ROAST', color: '#f97316' },
 ];
 
@@ -104,12 +106,13 @@ export function UnifiedTerminal() {
         <div style={{
             display: 'flex',
             flexDirection: 'column',
-            height: '100vh',
+            minHeight: '100vh',
+            height: '100vh', /* Maintain fixed height for desktop by default, overridden by CSS for mobile */
             overflow: 'hidden',
             background: 'var(--bg-dark)',
             color: 'var(--text-primary)',
             fontFamily: 'var(--font-main)',
-        }}>
+        }} className="unified-terminal-root">
             <WhaleEffect isWhale={params.V >= 200000000} />
             {RainComponent}
 
@@ -127,13 +130,20 @@ export function UnifiedTerminal() {
                 backdropFilter: 'blur(40px) saturate(150%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(150%)',
             }} className="terminal-header">
-                <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', flexWrap: 'wrap' }}>
-                    <div style={{ flex: 1 }}>
+                <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '8px', flexWrap: 'wrap', gap: '12px' }}>
+                    <div style={{ flex: 1, minWidth: '300px' }}>
                         <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
-                            {t('title').split(' ')[0]} <span style={{ color: 'var(--accent-purple)' }}>{t('title').split(' ').slice(1).join(' ')}</span>
+                            {t('title').split(' ')[0]} <span style={{
+                                background: 'linear-gradient(90deg, var(--accent-emerald), var(--accent-amber))',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent'
+                            }}>{t('title').split(' ').slice(1).join(' ')}</span>
                         </h1>
-                        <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-purple)', letterSpacing: '0.15em', marginTop: '2px' }}>
+                        <div style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-amber)', letterSpacing: '0.15em', marginTop: '2px' }}>
                             {t('subtitle')}
+                        </div>
+                        <div style={{ fontSize: '0.55rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.2em', marginTop: '4px', textTransform: 'uppercase' }}>
+                            Created by Szymon & Damian
                         </div>
                         <div style={{ display: 'flex', gap: '8px', marginTop: '10px', alignItems: 'center' }}>
                             <div style={{ display: 'flex', gap: '4px', marginRight: '8px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -159,7 +169,7 @@ export function UnifiedTerminal() {
                             className="storm-btn"
                             style={{ fontSize: '0.65rem', padding: '0 12px', height: '28px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: 600, backdropFilter: 'blur(10px)', width: 'auto' }}
                         >
-                            <option value="" disabled>⚡ LOAD SCENARIO</option>
+                            <option value="" disabled>{t('topBar.loadParams')}</option>
                             {PRESET_SCENARIOS.map((s, i) => (
                                 <option key={i} value={i} style={{ background: '#1e1e22' }}>{s.label}</option>
                             ))}
@@ -183,12 +193,12 @@ export function UnifiedTerminal() {
                             style={{ fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: '6px', height: '28px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%)', backdropFilter: 'blur(10px)' }}
                             onClick={() => triggerRain(selectedRainCoin)}
                         >
-                            🌧️ MAKE IT RAIN {selectedRainCoin}
+                            {t('topBar.rain').replace('{coin}', selectedRainCoin)}
                         </button>
                         <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
                             {[
-                                { label: metrics.status, color: sColor, glow: sColor },
-                                { label: `Score ${dealScore}/100`, color: 'var(--accent-amber)', glow: 'var(--accent-amber)' },
+                                { label: t(`scoreDesc.${metrics.status === 'BLOCKED' ? 'blocked' : metrics.status === 'SAFE' ? 'safe' : metrics.status === 'WARNING' ? 'warn' : 'crit'}`).split(':')[0], color: sColor, glow: sColor },
+                                { label: t('topBar.score').replace('{val}', dealScore.toString()), color: 'var(--accent-amber)', glow: 'var(--accent-amber)' },
                                 { label: `V $${(params.V / 1e6).toFixed(1)}M`, color: 'var(--accent-blue)', glow: 'var(--accent-blue)' },
                             ].map(chip => (
                                 <div key={chip.label} style={{
@@ -222,7 +232,7 @@ export function UnifiedTerminal() {
                 alignItems: 'center',
                 overflowX: 'auto'
             }}>
-                <span style={{ fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.2)', textTransform: 'uppercase', marginRight: '4px' }}>MODE</span>
+                <span style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase', marginRight: '8px' }}>MODE</span>
                 {TABS.map(t => (
                     <button
                         key={t.id}
@@ -241,59 +251,60 @@ export function UnifiedTerminal() {
 
                 {/* LEFT SIDEBAR */}
                 <div className="layout-main-content" style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-                    {/* LEFT SIDEBAR - HUNTER MODE */}
-                    <div className="layout-sidebar" style={{
-                        width: '100%',
-                        maxWidth: '430px',
-                        padding: '20px 0 20px 20px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '12px',
-                        overflowY: 'auto',
-                        background: 'rgba(0,0,0,0.18)',
-                        scrollbarWidth: 'none',
-                    }}>
-                        <Panel title="🎚️ Parameters">
-                            <DealSimulator params={params} updateParam={updateParam} />
-                        </Panel>
-                        <Panel title="📑 Quick Templates" noPad>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                                {[
-                                    { name: '🛡️ Conservative', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0 } },
-                                    { name: '⚖️ Balanced', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50 } },
-                                    { name: '🔥 Aggressive', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100 } },
-                                ].map(t => (
-                                    <button
-                                        key={t.name}
-                                        onClick={() => setParams(prev => ({ ...prev, ...t.params }))}
-                                        className="storm-btn"
-                                        style={{
-                                            width: '100%', justifyContent: 'flex-start', padding: '10px 14px',
-                                            fontSize: '0.7rem', background: 'rgba(255,255,255,0.03)'
-                                        }}
-                                    >
-                                        {t.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </Panel>
-                        <Panel title="🛡️ Safety Protocol" noPad>
-                            <MarginSafetyLock value={params.safetyThreshold} onChange={v => updateParam('safetyThreshold', v)} />
-                        </Panel>
-                        <Panel title="📖 Terminal Glossary" noPad>
-                            <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', minHeight: '100px' }}>
-                                <Glossary />
-                            </div>
-                        </Panel>
-                        <div style={{ height: '40px' }} /> {/* Extra space at bottom of sidebar */}
+                    {['hunter', 'streamer', 'trader'].includes(activeTab) && (
+                        <div className="layout-sidebar" style={{
+                            width: '100%',
+                            maxWidth: '430px',
+                            padding: '20px 0 20px 20px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '12px',
+                            overflowY: 'auto',
+                            background: 'rgba(0,0,0,0.18)',
+                            scrollbarWidth: 'none',
+                        }}>
+                            <Panel title="🎚️ Parameters">
+                                <DealSimulator params={params} updateParam={updateParam} />
+                            </Panel>
+                            <Panel title="📑 Quick Templates" noPad>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                    {[
+                                        { name: '🛡️ Conservative', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0 } },
+                                        { name: '⚖️ Balanced', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50 } },
+                                        { name: '🔥 Aggressive', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100 } },
+                                    ].map(t => (
+                                        <button
+                                            key={t.name}
+                                            onClick={() => setParams(prev => ({ ...prev, ...t.params }))}
+                                            className="storm-btn"
+                                            style={{
+                                                width: '100%', justifyContent: 'flex-start', padding: '10px 14px',
+                                                fontSize: '0.7rem', background: 'rgba(255,255,255,0.03)'
+                                            }}
+                                        >
+                                            {t.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </Panel>
+                            <Panel title="🛡️ Safety Protocol" noPad>
+                                <MarginSafetyLock value={params.safetyThreshold} onChange={v => updateParam('safetyThreshold', v)} />
+                            </Panel>
+                            <Panel title="📖 Terminal Glossary" noPad>
+                                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', minHeight: '100px' }}>
+                                    <Glossary />
+                                </div>
+                            </Panel>
+                            <div style={{ height: '40px' }} /> {/* Extra space at bottom of sidebar */}
 
-                    </div>
+                        </div>
+                    )}
 
                     {/* RIGHT CONTENT */}
                     <div style={{ flex: 1, overflowY: 'auto', minWidth: 0, padding: '14px' }} className="layout-main">
 
-                        {/* ─── HUNTER TAB ─── */}
-                        {activeTab === 'hunter' && (
+                        {/* ─── HUNTER / STREAMER / TRADER TABS ─── */}
+                        {['hunter', 'streamer', 'trader'].includes(activeTab) && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
                                     <Panel title="🚨 Deal Score Engine" tint="hunter">
@@ -352,7 +363,7 @@ export function UnifiedTerminal() {
                         {/* ─── ROAST TAB ─── */}
                         {activeTab === 'roast' && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                <Panel tint="roast" title={<>🔥 Deal Roast Mode <span style={{ fontSize: '0.55rem', fontWeight: 400, color: 'rgba(255,255,255,0.28)', fontStyle: 'italic', marginLeft: 8, textTransform: 'none', letterSpacing: 0 }}>na granicy dobrego smaku</span></>}>
+                                <Panel tint="roast" title="🔥 Deal Roast Mode">
                                     <DealRoast params={params} metrics={metrics} dealScore={dealScore} />
                                 </Panel>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
@@ -376,6 +387,6 @@ export function UnifiedTerminal() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };

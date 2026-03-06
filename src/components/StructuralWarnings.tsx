@@ -1,4 +1,5 @@
 import type { DealParams, DealResult } from '../model/DealModel';
+import { useLanguage } from '../lib/LanguageContext';
 
 interface Props {
     params: DealParams;
@@ -6,13 +7,14 @@ interface Props {
 }
 
 export function StructuralWarnings({ params, metrics }: Props) {
+    const { t } = useLanguage();
     const warnings = [];
 
     if (params.R > metrics.netProfit && metrics.netProfit > 0) {
         warnings.push({
             id: 'retainer-high',
-            label: 'Retainer Impact',
-            text: 'Retainer consumes more than 100% of Net Profit. High financial dependency.',
+            label: t('warnLabels.retainer'),
+            text: t('warn.highRetainer'),
             severity: 'high'
         });
     }
@@ -20,8 +22,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (metrics.breakEvenVolume > 30000000) {
         warnings.push({
             id: 'be-extreme',
-            label: 'Break-even Risk',
-            text: `Break-even exceeds $30M (${(metrics.breakEvenVolume / 1000000).toFixed(1)}M). Unrealistic volume target?`,
+            label: t('warnLabels.breakEven'),
+            text: t('warn.beExtreme').replace('{val}', (metrics.breakEvenVolume / 1000000).toFixed(1)),
             severity: 'high'
         });
     }
@@ -29,8 +31,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (params.P > 70) {
         warnings.push({
             id: 'share-extreme',
-            label: 'Share Ceiling',
-            text: 'Partner share > 70% leaves minimal margin for node/opex costs.',
+            label: t('warnLabels.share'),
+            text: t('warn.shareCeil'),
             severity: 'medium'
         });
     }
@@ -38,8 +40,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (metrics.marginBuffer < (params.safetyThreshold / 100)) {
         warnings.push({
             id: 'safety-violation',
-            label: 'Margin Safety',
-            text: `Current margin (${(metrics.marginBuffer * 100).toFixed(1)}%) is below locked threshold (${params.safetyThreshold}%).`,
+            label: t('warnLabels.margin'),
+            text: t('warn.marginSafety').replace('{val}', (metrics.marginBuffer * 100).toFixed(1)).replace('{thresh}', params.safetyThreshold.toString()),
             severity: 'high'
         });
     }
@@ -47,8 +49,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (params.F < 0.02) {
         warnings.push({
             id: 'low-fee',
-            label: 'Fee Compression',
-            text: 'Fees below 0.02% create high vulnerability to market volatility.',
+            label: t('warnLabels.fee'),
+            text: t('warn.feeComp'),
             severity: 'medium'
         });
     }
@@ -58,8 +60,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (retainedPer1M < 75) {
         warnings.push({
             id: 'margin-collapse',
-            label: 'Margin Collapse Risk',
-            text: `MARGIN COLLAPSE RISK - Exchange retention per $1M below $75 safety floor (currently $${retainedPer1M.toFixed(0)}).`,
+            label: t('warnLabels.marginCollapse'),
+            text: t('warn.marginCollapseText').replace('{val}', retainedPer1M.toFixed(0)),
             severity: 'high'
         });
     }
@@ -68,8 +70,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (params.V > 40_000_000) {
         warnings.push({
             id: 'hunter-detection',
-            label: 'High Capacity Hunter',
-            text: 'HIGH CAPACITY HUNTER - Consider: tier unlock, milestone retainer, bonus cap.',
+            label: t('warnLabels.hunter'),
+            text: t('warn.hunterText'),
             severity: 'medium'
         });
     }
@@ -80,8 +82,8 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (bonusEquivPct > 20) {
         warnings.push({
             id: 'bonus-stacking',
-            label: 'Bonus Stacking Risk',
-            text: `Bonus equivalent exceeds 20% of gross per 1M (currently ${bonusEquivPct.toFixed(1)}%). Stacking risk.`,
+            label: t('warnLabels.bonusStacking'),
+            text: t('warn.bonusStackingText').replace('{val}', bonusEquivPct.toFixed(1)),
             severity: 'high'
         });
     }
@@ -90,22 +92,25 @@ export function StructuralWarnings({ params, metrics }: Props) {
     if (params.S > 40 && params.R > 2000) {
         warnings.push({
             id: 'high-s-high-r',
-            label: 'Double Cost Exposure',
-            text: 'High sub-split combined with high retainer. Double cost exposure.',
+            label: t('warnLabels.doubleCost'),
+            text: t('warn.doubleCostText'),
             severity: 'high'
         });
     }
 
     if (warnings.length === 0) {
         return (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--accent-emerald)', fontSize: '0.9rem', opacity: 0.8 }}>
-                ✅ No structural risks detected in current model.
+            <div style={{ padding: '16px', background: 'rgba(52, 211, 153, 0.05)', color: 'var(--accent-emerald)', borderRadius: '8px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '1.2rem' }}>✅</span> {t('warn.noRisk')}
             </div>
         );
     }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="panel-header" style={{ marginBottom: '16px' }}>
+                <span style={{ fontSize: '1rem', marginRight: '6px' }}>⚠️</span> {t('warn.title')}
+            </div>
             {warnings.map(w => (
                 <div
                     key={w.id}

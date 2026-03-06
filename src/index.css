@@ -199,6 +199,31 @@ body {
     padding: 16px;
     gap: 16px;
   }
+
+  .layout-main-content {
+    flex-direction: column !important;
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+
+  .layout-sidebar {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 20px !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .layout-main {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+
+  .terminal-content {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -424,6 +449,17 @@ body {
   .bento-grid {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+  }
+
+  .unified-terminal-root {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
+  .bento-item {
+    margin-bottom: 0;
   }
 }
 
