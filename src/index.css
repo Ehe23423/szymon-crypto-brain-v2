@@ -121,8 +121,10 @@ body,
   height: auto !important;
   min-height: 100% !important;
   overflow-y: visible !important;
-  overflow-x: hidden !important;
-  position: relative !important;
+  overflow-x: visible !important;
+  /* Total removal of hidden overflow */
+  position: static !important;
+  /* Avoid positioning traps */
   -webkit-overflow-scrolling: touch !important;
 }
 
@@ -145,9 +147,8 @@ body,
   .unified-terminal-root {
     height: auto !important;
     min-height: 100% !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
-    position: relative !important;
+    overflow: visible !important;
+    position: static !important;
     display: block !important;
   }
 }
