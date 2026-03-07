@@ -56,8 +56,8 @@ export function FinancialSnapshot({ params, metrics }: Props) {
             {/* SECONDARY METRICS GRID */}
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
-                gap: '12px'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                gap: '8px'
             }}>
                 <div className="metric-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.02)' }}>
                     <span className="label" style={{ fontSize: '0.7rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.6)' }}>{t('metrics.grossFees')}</span>

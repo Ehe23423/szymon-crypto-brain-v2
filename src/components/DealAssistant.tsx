@@ -11,82 +11,102 @@ interface Props {
 interface QA {
     questionKey: string;
     emoji: string;
-    getAnswer: (p: DealParams, m: DealResult, s: number) => string;
+    answerKey: string;
+    getAnswer: (p: DealParams, m: DealResult, s: number, t: (k: string) => string) => string;
 }
+
+const interpolate = (str: string, params: Record<string, any>) => {
+    let result = str;
+    for (const key in params) {
+        result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), params[key]);
+    }
+    return result;
+};
 
 const QA_LIST: QA[] = [
     {
         questionKey: 'assistantQs.qSafe',
         emoji: '🛡️',
-        getAnswer: (p, m, s) => {
-            if (m.status === 'BLOCKED') return `❌ BLOCKED. Margin buffer ${(m.marginBuffer * 100).toFixed(1)}% is below your safety threshold of ${p.safetyThreshold}%. This deal violates minimum safety protocol. Do not proceed.`;
-            if (m.status === 'SAFE') return `✅ SAFE. Deal score ${s}/100 with ${(m.marginBuffer * 100).toFixed(1)}% margin buffer. Surplus retained: ${(m.netProfit).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })} monthly. Structure is sound.`;
-            if (m.status === 'WARNING') return `⚠️ WARNING. Score ${s}/100. Margin buffer ${(m.marginBuffer * 100).toFixed(1)}% is acceptable but thin. One volume dip of 20% could flip this negative. Proceed with caution.`;
-            return `🚨 CRITICAL. Margin at ${(m.marginBuffer * 100).toFixed(1)}%. Vulnerable to any volume decline or fee compression. Renegotiate before signing.`;
+        answerKey: 'assistantAnswers.qSafe',
+        getAnswer: (p, m, s, t) => {
+            const buffer = (m.marginBuffer * 100).toFixed(1);
+            const profit = (m.netProfit).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+            if (m.status === 'BLOCKED') return interpolate(t('assistantAnswers.qSafe.blocked'), { buffer, thresh: p.safetyThreshold });
+            if (m.status === 'SAFE') return interpolate(t('assistantAnswers.qSafe.safe'), { score: s, buffer, profit });
+            if (m.status === 'WARNING') return interpolate(t('assistantAnswers.qSafe.warn'), { score: s, buffer });
+            return interpolate(t('assistantAnswers.qSafe.crit'), { buffer });
         }
     },
     {
         questionKey: 'assistantQs.qChange',
         emoji: '🎯',
-        getAnswer: (p, m) => {
+        answerKey: 'assistantAnswers.qChange',
+        getAnswer: (p, m, _s, t) => {
             if (p.R > m.netProfit * 0.5 && p.R > 0)
-                return `🔧 Step 1 priority: Restructure retainer. Your R=$${p.R.toLocaleString()} eats ${((p.R / Math.max(m.netProfit, 1)) * 100).toFixed(0)}% of net profit. Split into milestones: launch + 25M + 40M. Immediately reduces fixed cost exposure.`;
+                return interpolate(t('assistantAnswers.qChange.retainer'), { val: p.R.toLocaleString(), pct: ((p.R / Math.max(m.netProfit, 1)) * 100).toFixed(0) });
             if (p.S > 42)
-                return `📊 Step 1 priority: Reduce sub-split from ${p.S}% to tiered structure (30%→40%→50%) based on volume milestones instead of flat ${p.S}%. This protects you at low volumes.`;
+                return interpolate(t('assistantAnswers.qChange.subSplit'), { val: p.S });
             if (p.B > 100)
-                return `🎁 Step 1 priority: Your bonus ($${p.B}/1M = ${((p.B / 350) * 100).toFixed(1)}% equivalent) is a stacking risk. Replace with tier upgrade at 30M volume. Eliminates linear bonus exposure.`;
-            if (p.P > 58)
-                return `⚡ Step 1 priority: Partner share ${p.P}% is high. Try negotiating down to 50–55%. Every 5% reduction recaptures ~${((p.V / 1e6) * (p.F / 100) * 0.05 * 1e6).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} monthly.`;
-            return `✅ Your parameters look balanced. Focus on increasing volume V→${(p.V * 1.2 / 1e6).toFixed(0)}M to improve all metrics proportionally.`;
+                return interpolate(t('assistantAnswers.qChange.bonus'), { val: p.B, pct: ((p.B / 350) * 100).toFixed(1) });
+            if (p.P > 58) {
+                const recapture = ((p.V / 1e6) * (p.F / 100) * 0.05 * 1e6).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return interpolate(t('assistantAnswers.qChange.share'), { val: p.P, recapture });
+            }
+            return interpolate(t('assistantAnswers.qChange.balanced'), { target: (p.V * 1.2 / 1e6).toFixed(0) });
         }
     },
     {
         questionKey: 'assistantQs.qBreak',
         emoji: '📐',
-        getAnswer: (p, m) => {
+        answerKey: 'assistantAnswers.qBreak',
+        getAnswer: (p, m, _s, t) => {
             const beM = m.breakEvenVolume / 1e6;
             const currentM = p.V / 1e6;
             const pct = currentM > 0 ? ((currentM - beM) / currentM * 100).toFixed(0) : '0';
             if (m.breakEvenVolume <= 0)
-                return `⚡ No fixed costs (R=0, I=0, B=0) — break-even is at $0 volume. Every dollar of volume is profitable.`;
+                return t('assistantAnswers.qBreak.none');
             if (beM > currentM)
-                return `🚨 Break-even volume: $${beM.toFixed(1)}M — you are BELOW break-even at current ${currentM}M volume. Need ${(beM - currentM).toFixed(1)}M MORE to stop losing money.`;
-            return `📐 Break-even at $${beM.toFixed(1)}M. Current volume ($${currentM.toFixed(0)}M) is ${pct}% above break-even. Comfortable buffer. Volume can drop ${(currentM - beM).toFixed(1)}M before you go negative.`;
+                return interpolate(t('assistantAnswers.qBreak.below'), { be: beM.toFixed(1), current: currentM.toFixed(1), gap: (beM - currentM).toFixed(1) });
+            return interpolate(t('assistantAnswers.qBreak.above'), { be: beM.toFixed(1), current: currentM.toFixed(0), pct, drop: (currentM - beM).toFixed(1) });
         }
     },
     {
         questionKey: 'assistantQs.qRisk',
         emoji: '💣',
-        getAnswer: (p) => {
-            if (p.B === 0) return `🟢 No bonus structured. Zero stacking risk. Structure remains clean and predictable.`;
-            const eq = (p.B / 350) * 100;
-            if (eq > 28.6) return `🔴 HIGH RISK: Bonus $${p.B}/1M represents ${eq.toFixed(1)}% of gross fees. Recommended threshold is <28.6% ($100/1M). This structure heavily compresses margins at scale. Note: The 'Freeze Rule' (pausing bonus if Net profit ≤ 0) protects from bankruptcy but does not recover prior margin erosion.`;
-            if (eq > 15) return `🟡 ELEVATED RISK: Bonus represents ${eq.toFixed(1)}% equivalent. Threshold for caution is 15%. Transitioning to volume-based commission tiers instead of flat bonuses is recommended to protect the baseline.`;
-            return `🟢 LOW RISK: Bonus $${p.B}/1M (${eq.toFixed(1)}% equivalent) is within safe operational limits (<15%). Standard freeze rules apply if net margin turns negative.`;
+        answerKey: 'assistantAnswers.qRisk',
+        getAnswer: (p, _m, _s, t) => {
+            if (p.B === 0) return t('assistantAnswers.qRisk.none');
+            const eq = ((p.B / 350) * 100).toFixed(1);
+            if (parseFloat(eq) > 28.6) return interpolate(t('assistantAnswers.qRisk.high'), { val: p.B, pct: eq });
+            if (parseFloat(eq) > 15) return interpolate(t('assistantAnswers.qRisk.elevated'), { pct: eq });
+            return interpolate(t('assistantAnswers.qRisk.low'), { val: p.B, pct: eq });
         }
     },
     {
         questionKey: 'assistantQs.qNegotiation',
         emoji: '♟️',
-        getAnswer: (p, m) => {
-            // Follow the 4-step PDF rulebook
+        answerKey: 'assistantAnswers.qNegotiation',
+        getAnswer: (p, m, _s, t) => {
             if (p.R > m.netProfit * 0.45 && p.R > 500)
-                return `♟️ Move 1 — Retainer restructure: "I can offer the base retainer, but split as $${Math.round(p.R * 0.4).toLocaleString()} at launch, $${Math.round(p.R * 0.35).toLocaleString()} at 25M/month, $${Math.round(p.R * 0.25).toLocaleString()} at 40M/month. Aligns both parties to growth." This reduces your upfront risk significantly.`;
+                return interpolate(t('assistantAnswers.qNegotiation.move1'), { r1: Math.round(p.R * 0.4).toLocaleString(), r2: Math.round(p.R * 0.35).toLocaleString(), r3: Math.round(p.R * 0.25).toLocaleString() });
             if (p.S > 40)
-                return `♟️ Move 2 — Tiering: "Instead of flat ${p.S}%, let's structure it as 30% up to 20M monthly, 40% at 20–35M, and 50% above 35M. You earn more as you bring more — fair and motivating." Protects you at low volumes while giving upside.`;
+                return interpolate(t('assistantAnswers.qNegotiation.move2'), { val: p.S });
             if (p.B > 100)
-                return `♟️ Move 3 — Tier over bonus: "Rather than a per-1M bonus, how about a tier upgrade to the next commission level when you hit 35M volume? Gives you reliable upside without capping our margin at all scenarios."`;
-            return `♟️ Move 4 (last resort): Sub-split adjustment. Current ${p.S}%. If needed, you can offer +3–5% S increase ONLY tied to tier qualification (2 consecutive qualifying months at target volume). Never agree to flat S increase without volume proof.`;
+                return t('assistantAnswers.qNegotiation.move3');
+            return interpolate(t('assistantAnswers.qNegotiation.move4'), { val: p.S });
         }
     },
     {
         questionKey: 'assistantQs.qRetained',
         emoji: '💰',
-        getAnswer: (_p, m) => {
+        answerKey: 'assistantAnswers.qRetained',
+        getAnswer: (_p, m, _s, t) => {
             const r1m = m.retainedPer1M;
-            if (r1m < 80) return `🔴 MARGIN COLLAPSE RISK: Only $${r1m.toFixed(0)} retained per $1M volume. Minimum safety threshold is $80/1M. This deal does not provide enough buffer for operational variability.`;
-            if (r1m < 140) return `🟡 LOW MARGIN BUFFER: $${r1m.toFixed(0)}/1M retained. Recommended floor is $140/1M (40% of standard $350/1M gross fee). This deal is vulnerable to sudden fee compression.`;
-            return `🟢 HEALTHY MARGIN: $${r1m.toFixed(0)} retained per $1M volume. You are retaining ${(r1m / 350 * 100).toFixed(0)}% of gross fees. Deal can withstand market fee compression down to ${(0.035 - (0.035 * (1 - r1m / 350))).toFixed(3)}% without going negative.`;
+            const val = r1m.toFixed(0);
+            if (r1m < 80) return interpolate(t('assistantAnswers.qRetained.collapse'), { val });
+            if (r1m < 140) return interpolate(t('assistantAnswers.qRetained.low'), { val });
+            const fee = (0.035 - (0.035 * (1 - r1m / 350))).toFixed(3);
+            return interpolate(t('assistantAnswers.qRetained.healthy'), { val, pct: (r1m / 350 * 100).toFixed(0), fee });
         }
     },
 ];
@@ -141,7 +161,7 @@ export const DealAssistant: React.FC<Props> = ({ params, metrics, dealScore }) =
                                 color: 'rgba(255,255,255,0.75)',
                                 lineHeight: 1.6,
                             }}>
-                                {qa.getAnswer(params, metrics, dealScore)}
+                                {qa.getAnswer(params, metrics, dealScore, t)}
                             </div>
                         )}
                     </div>

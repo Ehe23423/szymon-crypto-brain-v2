@@ -19,14 +19,14 @@ export function DealSimulator({ params, updateParam }: Props) {
 
             {/* 1. VOLUME */}
             <div className="control-group">
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                     <label
                         title="Monthly Trading Volume (USD)"
-                        style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em', cursor: 'help' }}
+                        style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-secondary)', letterSpacing: '0.05em', cursor: 'help' }}
                     >
                         {t('sim.vol')}
                     </label>
-                    <span style={{ color: 'var(--accent-blue)', fontWeight: 900, fontSize: '1rem' }}>{formatUSD(params.V)}</span>
+                    <span style={{ color: 'var(--accent-blue)', fontWeight: 900, fontVariantNumeric: 'tabular-nums', fontSize: '1.1rem' }}>{formatUSD(params.V)}</span>
                 </div>
                 <input
                     className="styled-range range-blue"
@@ -107,7 +107,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                     max="50"
                     step="5"
                     value={params.S}
-                    style={{ '--val': pct(params.S, 0, 50) } as React.CSSProperties}
+                    style={{ '--val': pct(params.S, 0, 50), height: '12px' } as React.CSSProperties}
                     onChange={(e) => updateParam('S', parseInt(e.target.value))}
                 />
             </div>
@@ -141,7 +141,7 @@ export function DealSimulator({ params, updateParam }: Props) {
                 </div>
 
                 <div className="control-group" style={{ gridColumn: 'span 2' }}>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>Bonus per 1M (USD)</label>
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-secondary)' }}>{t('sim.bonus')}</label>
                     <input
                         type="number"
                         value={params.B}

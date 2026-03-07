@@ -15,7 +15,8 @@ export const translations = {
             PITCH: "Pitch Mode",
             AGENCY: "Agency Ops",
             SAVES: "Library",
-            ADMIN: "Admin Console"
+            ADMIN: "Admin Console",
+            MODE: "MODE"
         },
         variables: {
             title: "VARIABLES",
@@ -53,7 +54,20 @@ export const translations = {
             proposal: "Negotiation Proposal Generator",
             executive: "Executive Summary",
             rulebook: "BD Rulebook",
-            score: "Deal Score Breakdown"
+            score: "Deal Score Breakdown",
+            templates: "Quick Templates",
+            safety: "Safety Protocol",
+            glossary: "Terminal Glossary",
+            scoreEngine: "Deal Score Engine",
+            warnings: "Structural Warnings",
+            roastMode: "Deal Roast Mode",
+            breakdown: "Score Breakdown",
+            scoreDesc: {
+                blocked: "BLOCKED",
+                safe: "SAFE",
+                warn: "WARNING",
+                crit: "CRITICAL"
+            }
         },
         stress: {
             title: "Stress Tests",
@@ -141,36 +155,48 @@ export const translations = {
             share: "PARTNER SHARE (%)",
             sub: "SUB-SPLIT (%)",
             retainer: "Retainer (USD)",
-            opCost: "Op Cost (USD)"
+            opCost: "Op Cost (USD)",
+            bonus: "Bonus per 1M (USD)"
         },
-        scoreUI: {
-            engine: "DEAL SCORE ENGINE",
-            status: "STATUS",
-            calculating: "CALCULATING..."
-        },
-        scoreDesc: {
-            blocked: "VIOLATION: Margin below safety threshold.",
-            safe: "OPTIMAL: Strong margin buffer, scalable structure.",
-            warn: "SUB-OPTIMAL: Respectable, but vulnerable to volume dips.",
-            crit: "DANGEROUS: Margin collapse imminent. Renegotiate."
-        },
-        warn: {
-            title: "STRUCTURAL WARNINGS",
-            noRisk: "No structural risks detected in current model.",
-            highRetainer: "Retainer consumes more than 100% of Net Profit. High financial dependency.",
-            beExtreme: "Break-even exceeds $30M ({val}M). Unrealistic volume target?",
-            shareCeil: "Partner share > 70% leaves minimal margin for node/opex costs.",
-            marginSafety: "Current margin ({val}%) is below locked threshold ({thresh}%).",
-            feeComp: "Blended fee below 0.02% indicates extreme discount tier logic."
-        },
-        warnLabels: {
-            retainer: "Retainer Impact",
-            breakEven: "Break-even Risk",
-            share: "Share Ceiling",
-            margin: "Margin Safety",
-            fee: "Fee Compression"
+        assistantAnswers: {
+            qSafe: {
+                blocked: "❌ BLOCKED. Margin buffer {buffer}% is below your safety threshold of {thresh}%. This deal violates minimum safety protocol. Do not proceed.",
+                safe: "✅ SAFE. Deal score {score}/100 with {buffer}% margin buffer. Surplus retained: {profit} monthly. Structure is sound.",
+                warn: "⚠️ WARNING. Score {score}/100. Margin buffer {buffer}% is acceptable but thin. One volume dip of 20% could flip this negative. Proceed with caution.",
+                crit: "🚨 CRITICAL. Margin at {buffer}%. Vulnerable to any volume decline or fee compression. Renegotiate before signing."
+            },
+            qChange: {
+                retainer: "🔧 Step 1 priority: Restructure retainer. Your R={val} eats {pct}% of net profit. Split into milestones: launch + 25M + 40M. Immediately reduces fixed cost exposure.",
+                subSplit: "📊 Step 1 priority: Reduce sub-split from {val}% to tiered structure (30%→40%→50%) based on volume milestones instead of flat {val}%. This protects you at low volumes.",
+                bonus: "🎁 Step 1 priority: Your bonus ({val}/1M = {pct}% equivalent) is a stacking risk. Replace with tier upgrade at 30M volume. Eliminates linear bonus exposure.",
+                share: "⚡ Step 1 priority: Partner share {val}% is high. Try negotiating down to 50–55%. Every 5% reduction recaptures ~{recapture} monthly.",
+                balanced: "✅ Your parameters look balanced. Focus on increasing volume V→{target}M to improve all metrics proportionally."
+            },
+            qBreak: {
+                none: "⚡ No fixed costs (R=0, I=0, B=0) — break-even is at $0 volume. Every dollar of volume is profitable.",
+                below: "🚨 Break-even volume: ${be}M — you are BELOW break-even at current {current}M volume. Need {gap}M MORE to stop losing money.",
+                above: "📐 Break-even at ${be}M. Current volume (${current}M) is {pct}% above break-even. Comfortable buffer. Volume can drop {drop}M before you go negative."
+            },
+            qRisk: {
+                none: "🟢 No bonus structured. Zero stacking risk. Structure remains clean and predictable.",
+                high: "🔴 HIGH RISK: Bonus {val}/1M represents {pct}% of gross fees. Recommended threshold is <28.6% ($100/1M). This structure heavily compresses margins at scale. Note: The 'Freeze Rule' protects from bankruptcy but does not recover prior margin erosion.",
+                elevated: "🟡 ELEVATED RISK: Bonus represents {pct}% equivalent. Threshold for caution is 15%. Transitioning to volume-based commission tiers instead of flat bonuses is recommended to protect the baseline.",
+                low: "🟢 LOW RISK: Bonus {val}/1M ({pct}% equivalent) is within safe operational limits (<15%). Standard freeze rules apply if net margin turns negative."
+            },
+            qNegotiation: {
+                move1: "♟️ Move 1 — Retainer restructure: \"I can offer the base retainer, but split as {r1} at launch, {r2} at 25M/month, {r3} at 40M/month. Aligns both parties to growth.\" This reduces your upfront risk significantly.",
+                move2: "♟️ Move 2 — Tiering: \"Instead of flat {val}%, let's structure it as 30% up to 20M monthly, 40% at 20–35M, and 50% above 35M. You earn more as you bring more — fair and motivating.\" Protects you at low volumes while giving upside.",
+                move3: "♟️ Move 3 — Tier over bonus: \"Rather than a per-1M bonus, how about a tier upgrade to the next commission level when you hit 35M volume? Gives you reliable upside without capping our margin at all scenarios.\"",
+                move4: "♟️ Move 4 (last resort): Sub-split adjustment. Current {val}%. If needed, you can offer +3–5% S increase ONLY tied to tier qualification (2 consecutive qualifying months at target volume). Never agree to flat S increase without volume proof."
+            },
+            qRetained: {
+                collapse: "🔴 MARGIN COLLAPSE RISK: Only ${val} retained per $1M volume. Minimum safety threshold is $80/1M. This deal does not provide enough buffer for operational variability.",
+                low: "🟡 LOW MARGIN BUFFER: ${val}/1M retained. Recommended floor is $140/1M (40% of standard $350/1M gross fee). This deal is vulnerable to sudden fee compression.",
+                healthy: "🟢 HEALTHY MARGIN: ${val} retained per $1M volume. You are retaining {pct}% of gross fees. Deal can withstand market fee compression down to {fee}% without going negative."
+            }
         },
         topBar: {
+            createdBy: "Created by",
             loadParams: "⚡ LOAD SCENARIO",
             rain: "🌧️ MAKE IT RAIN {coin}",
             score: "Score {val}/100"
@@ -192,7 +218,8 @@ export const translations = {
             PITCH: "Tryb Pitch",
             AGENCY: "Operacje Agencyjne",
             SAVES: "Biblioteka",
-            ADMIN: "Konsola Admina"
+            ADMIN: "Konsola Admina",
+            MODE: "TRYB"
         },
         variables: {
             title: "ZMIENNE",
@@ -225,12 +252,25 @@ export const translations = {
             financials: "Migawka Finansowa",
             projections: "Projekcje Wolumenu",
             heatmap: "Mapa Czułości",
-            assistant: "Asystent BD",
+            assistant: "Asystent Deal-u BD",
             partnerEcon: "Ekonomia Partnera",
             proposal: "Generator Propozycji Negocjacyjnej",
-            executive: "Podsumowanie",
+            executive: "Podsumowanie Wykonawcze",
             rulebook: "Zasady BD",
-            score: "Analiza Wyniku"
+            score: "Analiza Wyniku",
+            templates: "Szybkie Szablony",
+            safety: "Protokół Bezpieczeństwa",
+            glossary: "Glosariusz Terminala",
+            scoreEngine: "Silnik Wyniku Dealu",
+            warnings: "Ostrzeżenia Strukturalne",
+            roastMode: "Tryb Roastowania",
+            breakdown: "Rozbicie Wyniku",
+            scoreDesc: {
+                blocked: "ZABLOKOWANE",
+                safe: "BEZPIECZNE",
+                warn: "OSTRZEŻENIE",
+                crit: "KRYTYCZNE"
+            }
         },
         stress: {
             title: "Testy Stresowe",
@@ -312,42 +352,54 @@ export const translations = {
         },
         sim: {
             params: "PARAMETRY",
-            vol: "MIESIĘCZNY WOLUMEN (USD)",
-            fee: "ŚREDNIA PROWIZJA (%)",
-            feeNote: "Uwaga: To jest łączna średnia prowizja dla wszystkich poziomów VIP.",
-            share: "UDZIAŁ PARTNERA (%)",
-            sub: "SUB-SPLIT KOL (%)",
+            vol: "MONTHLY VOLUME (USD)",
+            fee: "BLENDED FEE (%)",
+            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
+            share: "PARTNER SHARE (%)",
+            sub: "SUB-SPLIT (%)",
             retainer: "Retainer (USD)",
-            opCost: "Koszty Op (USD)"
+            opCost: "Op Cost (USD)",
+            bonus: "Bonus per 1M (USD)"
         },
-        scoreUI: {
-            engine: "SILNIK OCENY DEALU",
-            status: "STATUS",
-            calculating: "OBLICZANIE..."
-        },
-        scoreDesc: {
-            blocked: "NARUSZENIE: Marża poniżej progu bezpieczeństwa.",
-            safe: "OPTYMALNIE: Silny bufor marży, skalowalna struktura.",
-            warn: "SUB-OPTYMALNIE: Przyzwoicie, lecz podatne na spadki wolumenu.",
-            crit: "NIEBEZPIECZNIE: Załamanie marży nieuniknione. Renegocjuj."
-        },
-        warn: {
-            title: "OSTRZEŻENIA STRUKTURALNE",
-            noRisk: "Brak ryzyk strukturalnych w obecnym modelu.",
-            highRetainer: "Retainer pochłania >100% Zysku Netto. Wysoka zależność.",
-            beExtreme: "Break-even przekracza $30M ({val}M). Nierealny cel?",
-            shareCeil: "Udział Partnera > 70% zostawia minimalną marżę dla giełdy.",
-            marginSafety: "Obecna marża ({val}%) jest poniżej zablokowanego progu ({thresh}%).",
-            feeComp: "Prowizja < 0.02% oznacza ekstremalną logikę zniżek."
-        },
-        warnLabels: {
-            retainer: "Wpływ Retainera",
-            breakEven: "Ryzyko Break-even",
-            share: "Sufit Udziałów",
-            margin: "Bezpieczeństwo Marży",
-            fee: "Kompresja Opłat"
+        assistantAnswers: {
+            qSafe: {
+                blocked: "❌ ZABLOKOWANE. Bufor marży {buffer}% jest poniżej progu bezpieczeństwa wynoszącego {thresh}%. Ten deal narusza minimalne protokoły bezpieczeństwa. Nie kontynuuj.",
+                safe: "✅ BEZPIECZNE. Wynik dealu {score}/100 z buforem marży {buffer}%. Nadwyżka: {profit} miesięcznie. Struktura jest solidna.",
+                warn: "⚠️ OSTRZEŻENIE. Wynik {score}/100. Bufor marży {buffer}% jest akceptowalny, ale cienki. Jeden spadek wolumenu o 20% może przynieść stratę. Postępuj ostrożnie.",
+                crit: "🚨 KRYTYCZNIE. Marża na poziomie {buffer}%. Podatność na jakikolwiek spadek wolumenu lub kompresję opłat. Renegocjuj przed podpisaniem."
+            },
+            qChange: {
+                retainer: "🔧 Priorytet kroku 1: Zrestrukturyzuj retainer. Twój R={val} pochłania {pct}% zysku netto. Podziel na kamienie milowe: start + 25M + 40M. Natychmiast zmniejsza ekspozycję na koszty stałe.",
+                subSplit: "📊 Priorytet kroku 1: Zmniejsz sub-split z {val}% na strukturę progową (30%→40%→50%) zamiast stałego {val}%. Chroni to przy niskich wolumenach.",
+                bonus: "🎁 Priorytet kroku 1: Twój bonus ({val}/1M = {pct}% ekwiwalentu) to ryzyko kumulacji. Zastąp upgrade'em progu przy 30M wolumenu.",
+                share: "⚡ Priorytet kroku 1: Udział partnera {val}% jest wysoki. Spróbuj wynegocjować 50–55%. Każda redukcja o 5% odzyskuje ~{recapture} miesięcznie.",
+                balanced: "✅ Twoje parametry wyglądają na zrównoważone. Skup się na zwiększeniu wolumenu V→{target}M, aby poprawić wszystkie wskaźniki."
+            },
+            qBreak: {
+                none: "⚡ Brak kosztów stałych (R=0, I=0, B=0) — próg opłacalności to $0. Każdy dolar wolumenu jest zyskowny.",
+                below: "🚨 Punkt opłacalności: ${be}M — jesteś PONIŻEJ progu przy obecnym wolumenie {current}M. Potrzebujesz {gap}M WIĘCEJ, by przestać tracić.",
+                above: "📐 Próg opłacalności przy ${be}M. Obecny wolumen (${current}M) jest {pct}% powyżej progu. Bezpieczny bufor. Wolumen może spaść o {drop}M przed stratą."
+            },
+            qRisk: {
+                none: "🟢 Brak ustrukturyzowanego bonusu. Zero ryzyka kumulacji. Struktura pozostaje czysta i przewidywalna.",
+                high: "🔴 WYSOKIE RYZYKO: Bonus {val}/1M stanowi {pct}% prowizji brutto. Zalecany próg to <28.6% ($100/1M). Ta struktura silnie kompresuje marże przy skali.",
+                elevated: "🟡 PODWYŻSZONE RYZYKO: Bonus stanowi {pct}% ekwiwalentu. Próg ostrożności to 15%. Zalecane przejście na progresywne progi prowizji.",
+                low: "🟢 NISKIE RYZYKO: Bonus {val}/1M ({pct}% ekwiwalentu) mieści się w bezpiecznych granicach (<15%)."
+            },
+            qNegotiation: {
+                move1: "♟️ Ruch 1 — Restrukturyzacja retainera: \"Mogę zaoferować bazowy retainer, ale podzielony: {r1} przy starcie, {r2} przy 25M/msc, {r3} przy 40M/msc. Łączy to interesy obu stron.\"",
+                move2: "♟️ Ruch 2 — Progi: \"Zamiast stałego {val}%, wprowadźmy 30% do 20M wolumenu, 40% przy 20–35M i 50% powyżej 35M. Zarabiasz więcej, gdy przynosisz więcej.\"",
+                move3: "♟️ Ruch 3 — Próg zamiast bonusu: \"Zamiast bonusu za każdy 1M, co powiesz na upgrade do następnego poziomu prowizji po osiągnięciu 35M wolumenu?\"",
+                move4: "♟️ Ruch 4 (ostatnia szansa): Korekta sub-splitu. Obecnie {val}%. Możesz zaoferować +3–5% wzrostu S TYLKO po osiągnięciu celu przez 2 miesiące z rzędu."
+            },
+            qRetained: {
+                collapse: "🔴 RYZYKO ZAPAŚCI MARŻY: Tylko ${val} zatrzymane na każde $1M wolumenu. Minimum to $80/1M. Ten deal ma zbyt mały bufor.",
+                low: "🟡 NISKI BUFOR MARŻY: ${val}/1M zatrzymane. Zalecane minimum to $140/1M (40% ze standardowych $350).",
+                healthy: "🟢 ZDROWA MARŻA: ${val} zatrzymane na każde $1M wolumenu. Zatrzymujesz {pct}% prowizji brutto."
+            }
         },
         topBar: {
+            createdBy: "Stworzone przez",
             loadParams: "⚡ ZAŁADUJ SCENARIUSZ",
             rain: "🌧️ ZRÓB DESZCZ {coin}",
             score: "Wynik {val}/100"
@@ -369,7 +421,8 @@ export const translations = {
             PITCH: "Modo Pitch",
             AGENCY: "Operaciones",
             SAVES: "Biblioteca",
-            ADMIN: "Consola de Admin"
+            ADMIN: "Consola de Admin",
+            MODE: "MODO"
         },
         variables: {
             title: "VARIABLES",
@@ -407,7 +460,20 @@ export const translations = {
             proposal: "Generador de Propuestas",
             executive: "Resumen Ejecutivo",
             rulebook: "Reglamento BD",
-            score: "Análisis de Puntuación"
+            score: "Análisis de Puntuación",
+            templates: "Plantillas Rápidas",
+            safety: "Protocolo de Seguridad",
+            glossary: "Glosario del Terminal",
+            scoreEngine: "Motor de Puntuación",
+            warnings: "Advertencias Estructurales",
+            roastMode: "Modo Roast",
+            breakdown: "Análisis de Resultado",
+            scoreDesc: {
+                blocked: "BLOQUEADO",
+                safe: "SEGURO",
+                warn: "ADVERTENCIA",
+                crit: "CRÍTICO"
+            }
         },
         stress: {
             title: "Pruebas de Estrés",
@@ -489,42 +555,54 @@ export const translations = {
         },
         sim: {
             params: "PARÁMETROS",
-            vol: "VOLUMEN MENSUAL (USD)",
-            fee: "TARIFA MIXTA (%)",
-            feeNote: "Nota: Esta es la tarifa media combinada en todos los niveles.",
-            share: "PARTE DEL SOCIO (%)",
-            sub: "SUBDIVISIÓN (%)",
-            retainer: "Retenedor (USD)",
-            opCost: "Costo Op (USD)"
+            vol: "MONTHLY VOLUME (USD)",
+            fee: "BLENDED FEE (%)",
+            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
+            share: "PARTNER SHARE (%)",
+            sub: "SUB-SPLIT (%)",
+            retainer: "Retainer (USD)",
+            opCost: "Op Cost (USD)",
+            bonus: "Bonus per 1M (USD)"
         },
-        scoreUI: {
-            engine: "MOTOR DE PUNTUACIÓN DE ACUERDOS",
-            status: "ESTADO",
-            calculating: "CALCULANDO..."
-        },
-        scoreDesc: {
-            blocked: "VIOLACIÓN: Margen por debajo del umbral de seguridad.",
-            safe: "ÓPTIMO: Fuerte margen de seguridad, estructura escalable.",
-            warn: "SUBÓPTIMO: Respetable, pero vulnerable a caídas de volumen.",
-            crit: "PELIGROSO: Colapso del margen inminente. Renegociar."
-        },
-        warn: {
-            title: "ADVERTENCIAS ESTRUCTURALES",
-            noRisk: "No se detectaron riesgos en el modelo actual.",
-            highRetainer: "El retenedor consume más del 100% de la ganancia neta.",
-            beExtreme: "Break-even excede $30M ({val}M). ¿Meta irrealista?",
-            shareCeil: "Parte > 70% deja un margen mínimo para los costos del nodo.",
-            marginSafety: "El margen ({val}%) está por debajo del umbral ({thresh}%).",
-            feeComp: "Tarifa < 0.02% indica lógica de nivel de descuento extrema."
-        },
-        warnLabels: {
-            retainer: "Impacto del Retenedor",
-            breakEven: "Riesgo de Break-even",
-            share: "Techo de Participación",
-            margin: "Seguridad de Margen",
-            fee: "Compresión de Tarifas"
+        assistantAnswers: {
+            qSafe: {
+                blocked: "❌ BLOQUEADO. El margen de seguridad {buffer}% está por debajo de su umbral del {thresh}%. Este acuerdo viola el protocolo mínimo. No proceda.",
+                safe: "✅ SEGURO. Puntuación {score}/100 con {buffer}% de margen. Excedente retenido: {profit} mensual. Estructura sólida.",
+                warn: "⚠️ ADVERTENCIA. Puntuación {score}/100. El margen {buffer}% es aceptable pero ajustado. Una caída de volumen del 20% podría ser negativa. Tenga precaución.",
+                crit: "🚨 CRÍTICO. Margen al {buffer}%. Vulnerable a declives o compresión de tarifas. Renegocie antes de firmar."
+            },
+            qChange: {
+                retainer: "🔧 Prioridad Paso 1: Reestructurar retenedor. Su R={val} consume el {pct}% del beneficio neto. Divídalo en hitos: lanzamiento + 25M + 40M.",
+                subSplit: "📊 Prioridad Paso 1: Reducir sub-división de {val}% a estructura escalonada (30%→40%→50%) según hitos en lugar de un {val}% plano.",
+                bonus: "🎁 Prioridad Paso 1: Su bono ({val}/1M = {pct}% equivalente) es un riesgo acumulado. Reemplace con mejora de nivel a los 30M.",
+                share: "⚡ Prioridad Paso 1: La parte del socio {val}% es alta. Intente negociar al 50–55%. Cada reducción del 5% recupera ~{recapture} mensual.",
+                balanced: "✅ Sus parámetros parecen equilibrados. Enfoque en aumentar volumen V→{target}M para mejorar todas las métricas."
+            },
+            qBreak: {
+                none: "⚡ Sin costos fijos (R=0, I=0, B=0) — equilibrio en $0 vol. Todo volumen es rentable.",
+                below: "🚨 Punto de equilibrio: ${be}M — está POR DEBAJO con {current}M actuales. Necesita {gap}M MÁS para detener pérdidas.",
+                above: "📐 Equilibrio a ${be}M. El volumen actual (${current}M) está {pct}% por encima. Margen cómodo. Puede caer {drop}M antes de ser negativo."
+            },
+            qRisk: {
+                none: "🟢 Sin bono estructurado. Riesgo cero. Estructura limpia y predecible.",
+                high: "🔴 ALTO RIESGO: Bono {val}/1M representa {pct}% de comisiones brutas. Umbral recomendado <28.6% ($100/1M).",
+                elevated: "🟡 RIESGO ELEVADO: Bono representa {pct}% equivalente. Umbral de precaución 15%. Se recomienda transición a niveles.",
+                low: "🟢 RIESGO BAJO: Bono {val}/1M ({pct}% equivalente) dentro de límites seguros (<15%)."
+            },
+            qNegotiation: {
+                move1: "♟️ Movimiento 1 — Reestructura de retenedor: \"Puedo ofrecer el retenedor base, pero dividido en {r1} al inicio, {r2} a los 25M/mes, {r3} a los 40M/mes.\"",
+                move2: "♟️ Movimiento 2 — Niveles: \"En lugar de {val}% plano, estructurémoslo como 30% hasta 20M, 40% a 20–35M, y 50% arriba de 35M.\"",
+                move3: "♟️ Movimiento 3 — Nivel sobre bono: \"¿Qué tal una mejora de nivel a los 35M en lugar de un bono por cada 1M?\"",
+                move4: "♟️ Movimiento 4 (ultimo recurso): Ajuste de sub-división. Actual {val}%. Ofrezca +3–5% SOLO tras 2 meses cumpliendo objetivos."
+            },
+            qRetained: {
+                collapse: "🔴 RIESGO DE COLAPSO: Solo ${val} retenido por $1M. El umbral mínimo es $80/1M. Siente poco margen.",
+                low: "🟡 MARGEN BAJO: ${val}/1M retenido. El floor recomendado es $140/1M (40% de los $350 estándar).",
+                healthy: "🟢 MARGEN SALUDABLE: ${val} retenido por $1M. Retiene el {pct}% de las comisiones brutas."
+            }
         },
         topBar: {
+            createdBy: "Creado por",
             loadParams: "⚡ CARGAR ESCENARIO",
             rain: "🌧️ HACER QUE LLUEVA {coin}",
             score: "Puntos {val}/100"
@@ -546,7 +624,8 @@ export const translations = {
             PITCH: "पिच मोड",
             AGENCY: "एजेंसी संचालन",
             SAVES: "लाइब्रेरी",
-            ADMIN: "एडमिन कंसोल"
+            ADMIN: "एडमिन कंसोल",
+            MODE: "मोड"
         },
         variables: {
             title: "वेरिएबल्स",
@@ -584,7 +663,20 @@ export const translations = {
             proposal: "प्रस्ताव जनरेटर",
             executive: "कार्यकारी सारांश",
             rulebook: "बीडी नियम पुस्तिका",
-            score: "डील स्कोर"
+            score: "डील स्कोर",
+            templates: "त्वरित टेम्प्लेट",
+            safety: "सुरक्षा प्रोटोकॉल",
+            glossary: "टर्मिनल ग्लोसरी",
+            scoreEngine: "डील स्कोर इंजन",
+            warnings: "संरचनात्मक चेतावनी",
+            roastMode: "डील रोस्ट मोड",
+            breakdown: "स्कोर विवरण",
+            scoreDesc: {
+                blocked: "अवरुद्ध",
+                safe: "सुरक्षित",
+                warn: "चेतावनी",
+                crit: "गंभीर"
+            }
         },
         stress: {
             title: "तनाव परीक्षण",
@@ -666,42 +758,54 @@ export const translations = {
         },
         sim: {
             params: "पैरामीटर",
-            vol: "मासिक वॉल्यूम (USD)",
-            fee: "मिश्रित शुल्क (%)",
-            feeNote: "नोट: यह सभी टियर में संयुक्त औसत शुल्क है।",
-            share: "पार्टनर शेयर (%)",
-            sub: "सब-स्प्लिट (%)",
-            retainer: "रिटेनर (USD)",
-            opCost: "ऑप कॉस्ट (USD)"
+            vol: "MONTHLY VOLUME (USD)",
+            fee: "BLENDED FEE (%)",
+            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
+            share: "PARTNER SHARE (%)",
+            sub: "SUB-SPLIT (%)",
+            retainer: "Retainer (USD)",
+            opCost: "Op Cost (USD)",
+            bonus: "Bonus per 1M (USD)"
         },
-        scoreUI: {
-            engine: "डील स्कोर इंजन",
-            status: "स्थिति",
-            calculating: "गणना कर रहा है..."
-        },
-        scoreDesc: {
-            blocked: "उल्लंघन: मार्जिन सुरक्षा सीमा से नीचे है।",
-            safe: "इष्टतम: मजबूत मार्जिन बफर, स्केलेबल संरचना।",
-            warn: "उप-इष्टतम: सम्मानजनक, लेकिन वॉल्यूम में गिरावट के प्रति संवेदनशील।",
-            crit: "गंभीर: मार्जिन का पतन आसन्न है। पुनः बातचीत करें।"
-        },
-        warn: {
-            title: "संरचनात्मक चेतावनी",
-            noRisk: "वर्तमान मॉडल में कोई संरचनात्मक जोखिम नहीं पाया गया।",
-            highRetainer: "रिटेनर 100% से अधिक नेट प्रॉफिट की खपत करता है।",
-            beExtreme: "ब्रेक-ईवन $30M ({val}M) से अधिक है। अवास्तविक लक्ष्य?",
-            shareCeil: "शेयर 70% से अधिक होने पर नोड/ओपेक्स के लिए न्यूनतम मार्जिन बचता है।",
-            marginSafety: "वर्तमान मार्जिन ({val}%) लॉक थ्रेशोल्ड ({thresh}%) से नीचे है।",
-            feeComp: "0.02% से कम शुल्क अत्यधिक छूट टियर को दर्शाता है।"
-        },
-        warnLabels: {
-            retainer: "रिटेनर प्रभाव",
-            breakEven: "ब्रेक-ईवन जोखिम",
-            share: "शेयर सीलिंग",
-            margin: "मार्जिन सुरक्षा",
-            fee: "शुल्क दबाव"
+        assistantAnswers: {
+            qSafe: {
+                blocked: "❌ अवरुद्ध। मार्जिन बफर {buffer}% आपके {thresh}% के सुरक्षा सीमा से नीचे है। आगे न बढ़ें।",
+                safe: "✅ सुरक्षित। {buffer}% मार्जिन के साथ {score}/100 स्कोर। मासिक लाभ: {profit}। संरचना सही है।",
+                warn: "⚠️ चेतावनी। स्कोर {score}/100। मार्जिन {buffer}% स्वीकार्य है लेकिन कम है। सावधानी बरतें।",
+                crit: "🚨 गंभीर। मार्जिन {buffer}% पर। वॉल्यूम में गिरावट या शुल्क दबाव के प्रति संवेदनशील। हस्ताक्षर करने से पहले बातचीत करें।"
+            },
+            qChange: {
+                retainer: "🔧 चरण 1 प्राथमिकता: रिटेनर को पुनर्गठित करें। आपका R={val} शुद्ध लाभ का {pct}% खाता है। इसे मील के पत्थर में विभाजित करें।",
+                subSplit: "📊 चरण 1 प्राथमिकता: सब-स्प्लिट को {val}% से घटाकर टियर संरचना (30%→40%→50%) में बदलें।",
+                bonus: "🎁 चरण 1 प्राथमिकता: आपका बोनस ({val}/1M = {pct}% समतुल्य) एक जोखिम है। इसे टियर अपग्रेड से बदलें।",
+                share: "⚡ चरण 1 प्राथमिकता: पार्टनर शेयर {val}% अधिक है। इसे 50–55% तक लाने की कोशिश करें। ~{recapture} मासिक बचत होगी।",
+                balanced: "✅ आपके पैरामीटर संतुलित लग रहे हैं। सभी मैट्रिक्स को बेहतर बनाने के लिए वॉल्यूम V→{target}M बढ़ाने पर ध्यान दें।"
+            },
+            qBreak: {
+                none: "⚡ कोई निश्चित लागत नहीं (R=0, I=0, B=0) — ब्रेक-ईवन $0 पर है। हर डॉलर लाभदायक है।",
+                below: "🚨 ब्रेक-ईवन वॉल्यूम: ${be}M — आप वर्तमान {current}M वॉल्यूम पर घाटे में हैं। {gap}M और चाहिए।",
+                above: "📐 ब्रेक-ईवन ${be}M पर। वर्तमान वॉल्यूम (${current}M) ब्रेक-ईवन से {pct}% ऊपर है। सुरक्षित बफर।"
+            },
+            qRisk: {
+                none: "🟢 कोई बोनस नहीं। शून्य जोखिम। संरचना स्पष्ट और अनुमानित है।",
+                high: "🔴 उच्च जोखिम: बोनस {val}/1M सकल शुल्क का {pct}% है। अनुशंसित सीमा <28.6% है।",
+                elevated: "🟡 बढ़ा हुआ जोखिम: बोनस {pct}% के बराबर है। सावधानी की सीमा 15% है।",
+                low: "🟢 कम जोखिम: बोनस {val}/1M ({pct}% समतुल्य) सुरक्षित सीमा (<15%) के भीतर है।"
+            },
+            qNegotiation: {
+                move1: "♟️ कदम 1 — रिटेनर पुनर्गठन: \"मैं आधार रिटेनर दे सकता हूँ, लेकिन इसे {r1}, {r2}, {r3} में मील के पत्थर के आधार पर विभाजित करें।\"",
+                move2: "♟️ कदम 2 — टियरिंग: \"फ्लैट {val}% के बजाय, इसे 20M तक 30%, 20-35M पर 40%, और उससे ऊपर 50% रखें।\"",
+                move3: "♟️ कदम 3 — टियर बनाम बोनस: \"प्रति-1M बोनस के बजाय, 35M वॉल्यूम हिट करने पर टियर अपग्रेड कैसा रहेगा?\"",
+                move4: "♟️ कदम 4 (अंतिम उपाय): सब-स्प्लिट समायोजन। वर्तमान {val}%। यदि आवश्यक हो, तो केवल लक्ष्य प्राप्ति पर +3–5% की वृद्धि दें।"
+            },
+            qRetained: {
+                collapse: "🔴 मार्जिन पतन जोखिम: प्रति $1M केवल ${val} बचा। न्यूनतम सुरक्षा सीमा $80/1M है।",
+                low: "🟡 कम मार्जिन बफर: ${val}/1M बचा। अनुशंसित सीमा $140/1M है।",
+                healthy: "🟢 स्वस्थ मार्जिन: प्रति $1M ${val} बचा। आप सकल शुल्क का {pct}% बचा रहे हैं।"
+            }
         },
         topBar: {
+            createdBy: "द्वारा निर्मित",
             loadParams: "⚡ लोड परिदृश्य",
             rain: "🌧️ बारिश करें {coin}",
             score: "स्कोर {val}/100"

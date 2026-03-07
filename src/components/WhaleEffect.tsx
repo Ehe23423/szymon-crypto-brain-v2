@@ -6,21 +6,30 @@ export function WhaleEffect({ isWhale }: { isWhale: boolean }) {
     const [hasPlayed, setHasPlayed] = useState(false);
 
     useEffect(() => {
-        let timer: any;
-        if (isWhale && !hasPlayed) {
+        const sessionPlayed = sessionStorage.getItem('whale_effect_played');
+        console.log('WhaleEffect Check:', { isWhale, sessionPlayed, hasPlayed });
+
+        if (isWhale && !sessionPlayed && !hasPlayed) {
+            console.log('TRIGGERING WHALE ALERT');
             setShowAlert(true);
             setHasPlayed(true);
+            sessionStorage.setItem('whale_effect_played', 'true');
+        } else if (!isWhale) {
+            setShowAlert(false);
+        }
+    }, [isWhale, hasPlayed]);
+
+    useEffect(() => {
+        let timer: any;
+        if (showAlert) {
             timer = setTimeout(() => {
                 setShowAlert(false);
             }, 3000);
-        } else if (!isWhale) {
-            setHasPlayed(false);
-            setShowAlert(false);
         }
         return () => {
             if (timer) clearTimeout(timer);
         };
-    }, [isWhale, hasPlayed]);
+    }, [showAlert]);
 
     if (!isWhale && !showAlert) return null;
 

@@ -126,9 +126,35 @@
 html,
 body {
   height: auto !important;
-  min-height: 100% !important;
+  min-height: 100vh !important;
   overflow: visible !important;
   overflow-x: hidden !important;
+  position: relative !important;
+}
+
+/* Base Layout & Scroll Fixes */
+.unified-terminal-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+@media (min-width: 1025px) {
+  .unified-terminal-root {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 1024px) {
+  .unified-terminal-root {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 body {
@@ -201,36 +227,33 @@ body {
 }
 
 
-/* Responsive Grid */
+/* Mobile Main Containers Fix */
 @media (max-width: 1024px) {
-  .app-container {
-    padding: 16px;
-    gap: 16px;
+  .terminal-content {
+    flex-direction: column !important;
+    flex: none !important;
+    display: flex !important;
+    width: 100vw !important;
+    overflow-x: hidden !important;
   }
 
   .layout-main-content {
     flex-direction: column !important;
-    overflow-y: visible !important;
-    height: auto !important;
+    flex: none !important;
+    width: 100% !important;
   }
 
   .layout-sidebar {
     width: 100% !important;
     max-width: none !important;
-    padding: 20px !important;
-    overflow-y: visible !important;
-    height: auto !important;
-    background: rgba(0, 0, 0, 0.3) !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-light);
+    padding: 16px !important;
   }
 
   .layout-main {
-    overflow-y: visible !important;
-    height: auto !important;
-  }
-
-  .terminal-content {
-    overflow-y: visible !important;
-    height: auto !important;
+    width: 100% !important;
+    padding: 16px !important;
   }
 }
 
@@ -1635,83 +1658,48 @@ table {
   color: var(--accent-blue);
 }
 
-@media (max-width: 1024px) {
-  .terminal-content {
-    flex-direction: column !important;
-    overflow-y: auto !important;
-    height: auto !important;
-  }
-
-  .layout-sidebar {
-    width: 100% !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-    overflow-y: visible !important;
-    flex-shrink: 0 !important;
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .layout-main {
-    width: 100% !important;
-    overflow-y: visible !important;
-    padding: 12px !important;
-  }
-
-  .terminal-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    padding: 10px 16px !important;
-    gap: 12px !important;
-  }
-
-  .terminal-header h1 {
-    font-size: 0.85rem !important;
-  }
-
-  .header-credits {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    pointer-events: none !important;
-  }
-}
-
+/* Mobile Specific Content Adjustments */
 @media (max-width: 768px) {
 
   .terminal-grid,
-  .vars-grid,
-  .bento-grid-2 {
+  .vars-grid {
     grid-template-columns: 1fr !important;
   }
 
-  .tab-btn {
-    padding: 6px 10px !important;
-    font-size: 0.68rem !important;
-    flex: 1;
-    justify-content: center;
+  h1 {
+    font-size: 1.25rem !important;
   }
 
-  .tabs-row {
+  .metric-card .value {
+    font-size: 1.5rem !important;
+  }
+
+  .tabs-row,
+  .tab-container {
     padding: 8px 12px !important;
     overflow-x: auto !important;
-    justify-content: flex-start !important;
+    display: flex !important;
     flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px !important;
+  }
+
+  .tab-btn,
+  .storm-btn {
+    flex: 0 0 auto !important;
+    font-size: 0.7rem !important;
+    padding: 6px 12px !important;
   }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 0.85rem !important;
-  }
-
   .metric-card .value {
-    font-size: 0.9rem !important;
+    font-size: 1.25rem !important;
   }
 
-  .metric-box div {
-    font-size: 1.4rem !important;
+  .header-chips {
+    display: none !important;
   }
 }
 
@@ -1833,44 +1821,29 @@ table {
    RESPONSIVE OVERHAUL (Mobile, Tablet, Desktop, 4K TV)
    ============================================================ */
 
-/* Mobile Devices (phones, less than 768px) */
+/* Mobile Refined Tweak */
 @media (max-width: 767px) {
   body {
-    font-size: 9px;
-    /* Base font smaller for max density */
-  }
-
-  .bento-grid-2 {
-    grid-template-columns: 1fr !important;
+    font-size: 10px;
   }
 
   .layout-header {
     flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
+    align-items: center !important;
+    text-align: center;
   }
 
-  .layout-sidebar {
-    gap: 6px !important;
-    padding: 10px 0 10px 10px !important;
+  .header-title-section {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  .header-actions {
+    justify-content: center;
   }
 
   .bento-item {
-    padding: 10px !important;
-    border-radius: 12px !important;
-  }
-
-  .header-chips {
-    flex-wrap: wrap;
-    gap: 4px !important;
-  }
-
-  .terminal-header {
-    padding: 8px 12px !important;
-  }
-
-  h1 {
-    font-size: 1.1rem !important;
+    padding: 12px !important;
   }
 }
 
