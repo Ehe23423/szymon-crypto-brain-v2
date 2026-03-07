@@ -352,14 +352,14 @@ export const translations = {
         },
         sim: {
             params: "PARAMETRY",
-            vol: "MONTHLY VOLUME (USD)",
-            fee: "BLENDED FEE (%)",
-            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
-            share: "PARTNER SHARE (%)",
+            vol: "MIESIĘCZNY WOLUMEN (USD)",
+            fee: "ŚREDNIA PROWIZJA (%)",
+            feeNote: "Uwaga: Jest to połączona średnia opłata we wszystkich poziomach i aktywach.",
+            share: "UDZIAŁ PARTNERA (%)",
             sub: "SUB-SPLIT (%)",
             retainer: "Retainer (USD)",
-            opCost: "Op Cost (USD)",
-            bonus: "Bonus per 1M (USD)"
+            opCost: "Koszty Operacyjne (USD)",
+            bonus: "Bonus za 1M (USD)"
         },
         assistantAnswers: {
             qSafe: {
@@ -555,14 +555,14 @@ export const translations = {
         },
         sim: {
             params: "PARÁMETROS",
-            vol: "MONTHLY VOLUME (USD)",
-            fee: "BLENDED FEE (%)",
-            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
-            share: "PARTNER SHARE (%)",
+            vol: "VOLUMEN MENSUAL (USD)",
+            fee: "COMISIÓN MIXTA (%)",
+            feeNote: "Nota: Esta es la comisión promedio combinada en todos los niveles y activos.",
+            share: "PARTICIPACIÓN DEL SOCIO (%)",
             sub: "SUB-SPLIT (%)",
-            retainer: "Retainer (USD)",
-            opCost: "Op Cost (USD)",
-            bonus: "Bonus per 1M (USD)"
+            retainer: "Retenedor (USD)",
+            opCost: "Costo Operativo (USD)",
+            bonus: "Bono por 1M (USD)"
         },
         assistantAnswers: {
             qSafe: {
@@ -758,14 +758,14 @@ export const translations = {
         },
         sim: {
             params: "पैरामीटर",
-            vol: "MONTHLY VOLUME (USD)",
-            fee: "BLENDED FEE (%)",
-            feeNote: "Note: This is the combined avg fee across all tiers and assets.",
-            share: "PARTNER SHARE (%)",
-            sub: "SUB-SPLIT (%)",
-            retainer: "Retainer (USD)",
-            opCost: "Op Cost (USD)",
-            bonus: "Bonus per 1M (USD)"
+            vol: "मासिक वॉल्यूम (USD)",
+            fee: "मिश्रित शुल्क (%)",
+            feeNote: "नोट: यह सभी स्तरों और संपत्तियों में संयुक्त औसत शुल्क है।",
+            share: "पार्टनर शेयर (%)",
+            sub: "सब-स्प्लिट (%)",
+            retainer: "रिटेनर (USD)",
+            opCost: "परिचालन लागत (USD)",
+            bonus: "प्रति 1M बोनस (USD)"
         },
         assistantAnswers: {
             qSafe: {

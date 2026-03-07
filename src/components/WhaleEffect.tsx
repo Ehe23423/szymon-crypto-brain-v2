@@ -6,22 +6,24 @@ export function WhaleEffect({ isWhale }: { isWhale: boolean }) {
     const [hasPlayed, setHasPlayed] = useState(false);
 
     useEffect(() => {
+        // Only trigger if whale status CHANGES to true
         if (isWhale && !hasPlayed) {
+            console.log("WHALE TRIGGERED");
             setShowAlert(true);
             setHasPlayed(true);
+
+            // Auto-hide alert after 5s regardless of logic
+            const timer = setTimeout(() => {
+                setShowAlert(false);
+            }, 5000);
+            return () => clearTimeout(timer);
         } else if (!isWhale) {
+            // Reset trigger once we go below threshold
             setHasPlayed(false);
             setShowAlert(false);
         }
     }, [isWhale, hasPlayed]);
 
-    useEffect(() => {
-        let timer: any;
-        if (showAlert) {
-            timer = setTimeout(() => setShowAlert(false), 5000);
-        }
-        return () => clearTimeout(timer);
-    }, [showAlert]);
 
     if (!isWhale && !showAlert) return null;
 

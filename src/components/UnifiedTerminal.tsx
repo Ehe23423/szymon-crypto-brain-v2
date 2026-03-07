@@ -88,7 +88,11 @@ export function UnifiedTerminal() {
 
     return (
         <div className="unified-terminal-root">
-            <WhaleEffect isWhale={params.V >= 20000000} />
+            {/* MASSIVE VERSION BANNER FOR VERIFICATION */}
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', background: '#ff0000', color: '#fff', fontSize: '10px', textAlign: 'center', zIndex: 99999, fontWeight: 900, pointerEvents: 'none', padding: '2px' }}>
+                MISSION RECOVERY v4.0 - SYSTEM ACTIVE
+            </div>
+            <WhaleEffect isWhale={params.V >= 100_000_000} />
             {RainComponent}
 
             {/* ══ TICKER ══ */}
@@ -360,8 +364,8 @@ export function UnifiedTerminal() {
                             </div>
                         )}
 
-                        <div style={{ marginTop: '20px', paddingBottom: '20px', textAlign: 'center', color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                            SZYMON CRYPTO BRAIN ACTIVE · {tab.emoji} {tab.label} · V2.0 PRISTINE · DEPLOYED
+                        <div style={{ marginTop: '20px', paddingBottom: '20px', textAlign: 'center', color: 'rgba(255,255,255,1)', fontSize: '0.8rem', fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase', background: 'rgba(255,0,0,0.1)', padding: '10px' }}>
+                            MISSION RECOVERY v4.0 · PRO CLEAN · NO GITARA · {tab.emoji} {tab.label.toUpperCase()}
                         </div>
                     </div>
                 </div>
