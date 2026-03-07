@@ -28,9 +28,16 @@
     #root {
       height: auto !important;
       min-height: 100vh !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
+      overflow-y: scroll !important;
+      overflow-x: visible !important;
       -webkit-overflow-scrolling: touch !important;
+      position: static !important;
+    }
+
+    .unified-terminal-root {
+      height: auto !important;
+      min-height: 100% !important;
+      overflow: visible !important;
     }
   </style>
 </head>
