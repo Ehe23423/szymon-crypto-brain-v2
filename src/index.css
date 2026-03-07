@@ -120,11 +120,10 @@ body,
 #root {
   height: auto !important;
   min-height: 100% !important;
-  /* Changed from 100vh to avoid mobile browser address bar issues */
   overflow-y: visible !important;
-  /* Body should not scroll internally, the document should */
   overflow-x: hidden !important;
   position: relative !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 /* Base Layout & Scroll Fixes */
@@ -147,8 +146,8 @@ body,
     height: auto !important;
     min-height: 100% !important;
     overflow-y: visible !important;
-    overflow-x: hidden;
-    position: relative;
+    overflow-x: hidden !important;
+    position: relative !important;
     display: block !important;
   }
 }
@@ -208,22 +207,23 @@ body {
   filter: blur(0);
 }
 
-/* Neon scrollbar */
+/* Neon scrollbar - Kinetic Pulse */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 210, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(61, 155, 255, 0.3);
-  border-radius: 3px;
+  background: linear-gradient(180deg, var(--accent-blue), var(--accent-emerald));
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(61, 155, 255, 0.5);
+  background: linear-gradient(180deg, var(--accent-emerald), var(--accent-blue));
 }
 
 

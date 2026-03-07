@@ -51,6 +51,18 @@ function Panel({ title, children, tint, noPad }: { title: React.ReactNode; child
                 {title}
             </h3>
             {children}
+            {/* ══ FOOTER / VERIFICATION ══ */}
+            <div style={{
+                padding: '40px',
+                textAlign: 'center',
+                opacity: 0.3,
+                fontSize: '0.8rem',
+                borderTop: '1px solid var(--border-light)',
+                marginTop: '40px'
+            }}>
+                <span id="gitara-marker">GITARA</span>
+                <div style={{ marginTop: '10px' }}>© 2026 SZYMON CRYPTO BRAIN v2.0</div>
+            </div>
         </div>
     );
 }
