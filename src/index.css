@@ -138,6 +138,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+  overflow-x: hidden !important;
 }
 
 @media (min-width: 1025px) {
@@ -149,11 +150,11 @@ body {
 
 @media (max-width: 1024px) {
   .unified-terminal-root {
-    height: auto;
+    height: auto !important;
     min-height: 100vh;
-    overflow-y: auto;
+    overflow-y: visible !important;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    position: relative;
   }
 }
 
@@ -233,7 +234,8 @@ body {
     flex-direction: column !important;
     flex: none !important;
     display: flex !important;
-    width: 100vw !important;
+    width: 100% !important;
+    max-width: 100vw !important;
     overflow-x: hidden !important;
   }
 
@@ -241,19 +243,34 @@ body {
     flex-direction: column !important;
     flex: none !important;
     width: 100% !important;
+    max-width: 100vw !important;
   }
 
   .layout-sidebar {
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100vw !important;
     border-right: none !important;
     border-bottom: 1px solid var(--border-light);
     padding: 16px !important;
+    flex-shrink: 0 !important;
   }
 
   .layout-main {
     width: 100% !important;
+    max-width: 100vw !important;
     padding: 16px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Force wrapping for all horizontal flex containers */
+  .layout-header,
+  .header-actions,
+  .header-controls,
+  .header-chips,
+  .tab-container {
+    flex-wrap: wrap !important;
+    height: auto !important;
+    gap: 12px !important;
   }
 }
 

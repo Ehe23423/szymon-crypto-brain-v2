@@ -137,7 +137,7 @@ export function UnifiedTerminal() {
                             </div>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }} className="header-controls">
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', width: '100%' }} className="header-controls">
                         <select
                             onChange={(e) => {
                                 if (e.target.value) setParams(PRESET_SCENARIOS[parseInt(e.target.value)].params);
@@ -185,7 +185,7 @@ export function UnifiedTerminal() {
                             </button>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '6px' }} className="header-chips">
+                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }} className="header-chips">
                         {[
                             { label: t(`panels.scoreDesc.${metrics.status === 'BLOCKED' ? 'blocked' : metrics.status === 'SAFE' ? 'safe' : metrics.status === 'WARNING' ? 'warn' : 'crit'}`), color: sColor, glow: sColor },
                             { label: t('topBar.score').replace('{val}', dealScore.toString()), color: 'var(--accent-amber)', glow: 'var(--accent-amber)' },
@@ -211,161 +211,161 @@ export function UnifiedTerminal() {
                     </div>
                 </div>
             </div>
-        </div>
 
-            {/* ══ TABS ══ */ }
-    <div className="tab-container" style={{
-        flexShrink: 0,
-        display: 'flex', gap: '8px', padding: '8px 20px',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-        background: 'rgba(0, 0, 0, 0.2)', backdropFilter: 'blur(10px)',
-        alignItems: 'center',
-        overflowX: 'auto'
-    }}>
-        <span style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase', marginRight: '8px' }}>{t('tabs.MODE')}</span>
-        {TABS.map(t => (
-            <button
-                key={t.id}
-                onClick={() => setActiveTab(t.id)}
-                className={`storm-btn ${activeTab === t.id ? 'active' : ''}`}
-                data-variant={t.id}
-                style={{ padding: '8px 16px', fontSize: '0.7rem' }}
-            >
-                {t.emoji} {t.label}
-            </button>
-        ))}
-    </div>
+            {/* ══ TABS ══ */}
+            <div className="tab-container" style={{
+                flexShrink: 0,
+                display: 'flex', gap: '8px', padding: '8px 20px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                background: 'rgba(0, 0, 0, 0.2)', backdropFilter: 'blur(10px)',
+                alignItems: 'center',
+                overflowX: 'auto',
+                flexWrap: 'wrap'
+            }}>
+                <span style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase', marginRight: '8px' }}>{t('tabs.MODE')}</span>
+                {TABS.map(t => (
+                    <button
+                        key={t.id}
+                        onClick={() => setActiveTab(t.id)}
+                        className={`storm-btn ${activeTab === t.id ? 'active' : ''}`}
+                        data-variant={t.id}
+                        style={{ padding: '8px 16px', fontSize: '0.7rem' }}
+                    >
+                        {t.emoji} {t.label}
+                    </button>
+                ))}
+            </div>
 
-    {/* ══ BODY ══ */ }
-    <div className="terminal-content">
+            {/* ══ BODY ══ */}
+            <div className="terminal-content">
 
-        {/* LEFT SIDEBAR */}
-        <div className="layout-main-content">
-            {['hunter', 'streamer', 'trader'].includes(activeTab) && (
-                <div className="layout-sidebar">
-                    <Panel title={`🎚️ ${t('sim.params')}`}>
-                        <DealSimulator params={params} updateParam={updateParam} />
-                    </Panel>
-                    <Panel title={`📑 ${t('panels.templates')}`} noPad>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {[
-                                { name: '🛡️ Conservative', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0 } },
-                                { name: '⚖️ Balanced', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50 } },
-                                { name: '🔥 Aggressive', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100 } },
-                            ].map(t => (
-                                <button
-                                    key={t.name}
-                                    onClick={() => setParams(prev => ({ ...prev, ...t.params }))}
-                                    className="storm-btn"
-                                    style={{
-                                        width: '100%', justifyContent: 'flex-start', padding: '10px 14px',
-                                        fontSize: '0.7rem', background: 'rgba(255,255,255,0.03)'
-                                    }}
-                                >
-                                    {t.name}
-                                </button>
-                            ))}
-                        </div>
-                    </Panel>
-                    <Panel title={`🛡️ ${t('panels.safety')}`} noPad>
-                        <MarginSafetyLock value={params.safetyThreshold} onChange={v => updateParam('safetyThreshold', v)} />
-                    </Panel>
-                    <Panel title={`📖 ${t('panels.glossary')}`} noPad>
-                        <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', minHeight: '100px' }}>
-                            <Glossary />
-                        </div>
-                    </Panel>
-                    <div style={{ height: '40px' }} /> {/* Extra space at bottom of sidebar */}
-
-                </div>
-            )}
-
-            {/* RIGHT CONTENT */}
-            <div className="layout-main">
-
-                {/* ─── HUNTER / STREAMER / TRADER TABS ─── */}
-                {['hunter', 'streamer', 'trader'].includes(activeTab) && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                            <Panel title={`🚨 ${t('panels.scoreEngine')}`} tint="hunter">
-                                <DealScore params={params} metrics={metrics} />
+                {/* LEFT SIDEBAR */}
+                <div className="layout-main-content">
+                    {['hunter', 'streamer', 'trader'].includes(activeTab) && (
+                        <div className="layout-sidebar">
+                            <Panel title={`🎚️ ${t('sim.params')}`}>
+                                <DealSimulator params={params} updateParam={updateParam} />
                             </Panel>
-                            <Panel title={`⚠️ ${t('panels.warnings')}`} tint="warning">
-                                <StructuralWarnings params={params} metrics={metrics} />
+                            <Panel title={`📑 ${t('panels.templates')}`} noPad>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                    {[
+                                        { name: '🛡️ Conservative', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0 } },
+                                        { name: '⚖️ Balanced', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50 } },
+                                        { name: '🔥 Aggressive', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100 } },
+                                    ].map(t => (
+                                        <button
+                                            key={t.name}
+                                            onClick={() => setParams(prev => ({ ...prev, ...t.params }))}
+                                            className="storm-btn"
+                                            style={{
+                                                width: '100%', justifyContent: 'flex-start', padding: '10px 14px',
+                                                fontSize: '0.7rem', background: 'rgba(255,255,255,0.03)'
+                                            }}
+                                        >
+                                            {t.name}
+                                        </button>
+                                    ))}
+                                </div>
                             </Panel>
+                            <Panel title={`🛡️ ${t('panels.safety')}`} noPad>
+                                <MarginSafetyLock value={params.safetyThreshold} onChange={v => updateParam('safetyThreshold', v)} />
+                            </Panel>
+                            <Panel title={`📖 ${t('panels.glossary')}`} noPad>
+                                <div style={{ padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', minHeight: '100px' }}>
+                                    <Glossary />
+                                </div>
+                            </Panel>
+                            <div style={{ height: '40px' }} /> {/* Extra space at bottom of sidebar */}
+
                         </div>
-                        <Panel title={`📊 ${t('panels.financials')}`}>
-                            <FinancialSnapshot params={params} metrics={metrics} />
-                        </Panel>
-                        <Panel title={`📈 ${t('panels.projections')}`}>
-                            <MinimalCharts params={params} />
-                        </Panel>
-                        <Panel title="⛈️ Stress Tests" tint="danger">
-                            <StressTests baseParams={params} />
-                        </Panel>
-                        <Panel title={`🌡️ ${t('panels.heatmap')}`}>
-                            <Heatmap params={params} />
-                        </Panel>
-                        <Panel title={`🤖 ${t('panels.assistant')}`} tint="blue">
-                            <DealAssistant params={params} metrics={metrics} dealScore={dealScore} />
-                        </Panel>
+                    )}
+
+                    {/* RIGHT CONTENT */}
+                    <div className="layout-main">
+
+                        {/* ─── HUNTER / STREAMER / TRADER TABS ─── */}
+                        {['hunter', 'streamer', 'trader'].includes(activeTab) && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
+                                    <Panel title={`🚨 ${t('panels.scoreEngine')}`} tint="hunter">
+                                        <DealScore params={params} metrics={metrics} />
+                                    </Panel>
+                                    <Panel title={`⚠️ ${t('panels.warnings')}`} tint="warning">
+                                        <StructuralWarnings params={params} metrics={metrics} />
+                                    </Panel>
+                                </div>
+                                <Panel title={`📊 ${t('panels.financials')}`}>
+                                    <FinancialSnapshot params={params} metrics={metrics} />
+                                </Panel>
+                                <Panel title={`📈 ${t('panels.projections')}`}>
+                                    <MinimalCharts params={params} />
+                                </Panel>
+                                <Panel title="⛈️ Stress Tests" tint="danger">
+                                    <StressTests baseParams={params} />
+                                </Panel>
+                                <Panel title={`🌡️ ${t('panels.heatmap')}`}>
+                                    <Heatmap params={params} />
+                                </Panel>
+                                <Panel title={`🤖 ${t('panels.assistant')}`} tint="blue">
+                                    <DealAssistant params={params} metrics={metrics} dealScore={dealScore} />
+                                </Panel>
+                            </div>
+                        )}
+
+                        {/* ─── AGENCY TAB ─── */}
+                        {activeTab === 'agency' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
+                                    <Panel title={`📊 ${t('panels.financials')}`} tint="blue">
+                                        <FinancialSnapshot params={params} metrics={metrics} />
+                                    </Panel>
+                                    <Panel title={`🤝 ${t('panels.partnerEcon')}`}>
+                                        <PartnerRevenueSim params={params} metrics={metrics} />
+                                    </Panel>
+                                </div>
+                                <Panel title={`💬 ${t('panels.proposal')}`} tint="purple">
+                                    <ProposalGenerator params={params} />
+                                </Panel>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
+                                    <Panel title={`📝 ${t('panels.executive')}`}>
+                                        <ExecutiveSummary params={params} metrics={metrics} />
+                                    </Panel>
+                                    <Panel title={`📖 ${t('panels.rulebook')}`} tint="purple">
+                                        <NegotiationRulebook />
+                                    </Panel>
+                                </div>
+                                <Panel title={`🏅 ${t('panels.score')}`}>
+                                    <DealScore params={params} metrics={metrics} />
+                                </Panel>
+                            </div>
+                        )}
+
+                        {/* ─── ROAST TAB ─── */}
+                        {activeTab === 'roast' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <Panel tint="roast" title={`🔥 ${t('panels.roastMode')}`}>
+                                    <DealRoast params={params} metrics={metrics} dealScore={dealScore} />
+                                </Panel>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
+                                    <Panel title={`🚨 ${t('panels.breakdown')}`}>
+                                        <DealScore params={params} metrics={metrics} />
+                                    </Panel>
+                                    <Panel title={`⚠️ ${t('panels.warnings')}`} tint="warning">
+                                        <StructuralWarnings params={params} metrics={metrics} />
+                                    </Panel>
+                                </div>
+                                <Panel title="⛈️ Stress Tests — is your deal cooked?" tint="danger">
+                                    <StressTests baseParams={params} />
+                                </Panel>
+                            </div>
+                        )}
+
+                        <div style={{ marginTop: '20px', paddingBottom: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                            SZYMON CRYPTO BRAIN ACTIVE · {tab.emoji} {tab.label} · V4.2 PRO · TERMINAL ACTIVE
+                        </div>
                     </div>
-                )}
-
-                {/* ─── AGENCY TAB ─── */}
-                {activeTab === 'agency' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                            <Panel title={`📊 ${t('panels.financials')}`} tint="blue">
-                                <FinancialSnapshot params={params} metrics={metrics} />
-                            </Panel>
-                            <Panel title={`🤝 ${t('panels.partnerEcon')}`}>
-                                <PartnerRevenueSim params={params} metrics={metrics} />
-                            </Panel>
-                        </div>
-                        <Panel title={`💬 ${t('panels.proposal')}`} tint="purple">
-                            <ProposalGenerator params={params} />
-                        </Panel>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                            <Panel title={`📝 ${t('panels.executive')}`}>
-                                <ExecutiveSummary params={params} metrics={metrics} />
-                            </Panel>
-                            <Panel title={`📖 ${t('panels.rulebook')}`} tint="purple">
-                                <NegotiationRulebook />
-                            </Panel>
-                        </div>
-                        <Panel title={`🏅 ${t('panels.score')}`}>
-                            <DealScore params={params} metrics={metrics} />
-                        </Panel>
-                    </div>
-                )}
-
-                {/* ─── ROAST TAB ─── */}
-                {activeTab === 'roast' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <Panel tint="roast" title={`🔥 ${t('panels.roastMode')}`}>
-                            <DealRoast params={params} metrics={metrics} dealScore={dealScore} />
-                        </Panel>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                            <Panel title={`🚨 ${t('panels.breakdown')}`}>
-                                <DealScore params={params} metrics={metrics} />
-                            </Panel>
-                            <Panel title={`⚠️ ${t('panels.warnings')}`} tint="warning">
-                                <StructuralWarnings params={params} metrics={metrics} />
-                            </Panel>
-                        </div>
-                        <Panel title="⛈️ Stress Tests — is your deal cooked?" tint="danger">
-                            <StressTests baseParams={params} />
-                        </Panel>
-                    </div>
-                )}
-
-                <div style={{ marginTop: '20px', paddingBottom: '12px', textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                    SZYMON CRYPTO BRAIN ACTIVE · {tab.emoji} {tab.label} · V4.2 PRO · TERMINAL ACTIVE
                 </div>
             </div>
-        </div>
-    </div>
         </div >
     );
 };
