@@ -121,10 +121,9 @@ body,
   height: auto !important;
   min-height: 100% !important;
   overflow-y: visible !important;
-  overflow-x: visible !important;
-  /* Total removal of hidden overflow */
+  overflow-x: hidden !important;
+  /* Back to hidden for x to prevent bounce, but visible Y */
   position: static !important;
-  /* Avoid positioning traps */
   -webkit-overflow-scrolling: touch !important;
 }
 
@@ -140,7 +139,6 @@ body,
   .unified-terminal-root {
     height: 100vh;
     overflow-y: auto;
-    /* Enable scroll even on desktop just in case */
   }
 }
 
@@ -271,7 +269,14 @@ body {
   .tab-container {
     flex-wrap: wrap !important;
     height: auto !important;
-    gap: 12px !important;
+    gap: 8px !important;
+    justify-content: flex-start !important;
+  }
+
+  .header-title-section {
+    width: 100% !important;
+    min-width: 0 !important;
+    text-align: left !important;
   }
 }
 

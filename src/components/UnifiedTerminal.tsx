@@ -105,9 +105,9 @@ export function UnifiedTerminal() {
                 backdropFilter: 'blur(40px) saturate(150%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(150%)',
             }} className="terminal-header">
-                <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '8px', flexWrap: 'wrap', gap: '12px' }}>
-                    <div style={{ flex: 1, minWidth: '300px' }} className="header-title-section">
-                        <h1 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.05em' }}>
+                <div className="layout-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px', flexWrap: 'wrap', gap: '16px' }}>
+                    <div style={{ flex: 1, minWidth: '100%' }} className="header-title-section">
+                        <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 900, letterSpacing: '0.02em', lineHeight: 1.1 }}>
                             {t('title').split(' ')[0]} <span style={{
                                 background: 'linear-gradient(90deg, var(--accent-emerald), var(--accent-amber))',
                                 WebkitBackgroundClip: 'text',

@@ -6,7 +6,7 @@ import './index.css';
 
 export default function App() {
   useEffect(() => {
-    const DEPLOY_VERSION = "v2.0_PRIME_PURGE";
+    const DEPLOY_VERSION = "v2.0_PRIME_FINAL_RECOVERY";
     console.log(`%c [SYSTEM] ${DEPLOY_VERSION} LOADED`, 'background: #00d2ff; color: #000; font-weight: bold;');
 
     const body = document.body;
