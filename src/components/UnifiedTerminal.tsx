@@ -34,10 +34,10 @@ const TABS: { id: TabId; emoji: string; labelKey: string; color: string }[] = [
 ];
 
 const PRESET_SCENARIOS = [
-    { key: "conservative", params: { V: 5_000_000, F: 0.1, P: 30, S: 20, R: 0, I: 0, B: 0, safetyThreshold: 20, productType: 'SPOT', exchangeFlavor: 'GENERIC' } },
-    { key: "balanced", params: { V: 15_000_000, F: 0.04, P: 50, S: 30, R: 2000, I: 0, B: 0, safetyThreshold: 15, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
-    { key: "aggressive", params: { V: 45_000_000, F: 0.035, P: 70, S: 45, R: 5000, I: 2000, B: 200, safetyThreshold: 5, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
-    { key: "hunter", params: { V: 100_000_000, F: 0.025, P: 60, S: 40, R: 0, I: 0, B: 0, safetyThreshold: 10, productType: 'FUTURES', exchangeFlavor: 'GENERIC' } },
+    { key: "conservative", params: { V: 5_000_000, F: 0.1, P: 30, S: 20, R: 0, I: 0, B: 0, safetyThreshold: 20, productType: 'SPOT' as const, exchangeFlavor: 'GENERIC' as const } },
+    { key: "balanced", params: { V: 15_000_000, F: 0.04, P: 50, S: 30, R: 2000, I: 0, B: 0, safetyThreshold: 15, productType: 'FUTURES' as const, exchangeFlavor: 'BINGX' as const } },
+    { key: "aggressive", params: { V: 45_000_000, F: 0.035, P: 70, S: 45, R: 5000, I: 2000, B: 200, safetyThreshold: 5, productType: 'FUTURES' as const, exchangeFlavor: 'BINGX' as const } },
+    { key: "hunter", params: { V: 100_000_000, F: 0.025, P: 60, S: 40, R: 0, I: 0, B: 0, safetyThreshold: 10, productType: 'FUTURES' as const, exchangeFlavor: 'GENERIC' as const } },
 ];
 
 function Panel({ title, children, tint, noPad }: { title: React.ReactNode; children: React.ReactNode; tint?: string; noPad?: boolean }) {
@@ -163,7 +163,7 @@ export function UnifiedTerminal() {
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', width: '100%' }} className="header-controls">
                         <select
                             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                if (e.target.value) setParams(PRESET_SCENARIOS[parseInt(e.target.value)].params);
+                                if (e.target.value) setParams(PRESET_SCENARIOS[parseInt(e.target.value)].params as DealParams);
                             }}
                             defaultValue=""
                             className="storm-btn"
@@ -306,9 +306,9 @@ export function UnifiedTerminal() {
                             <Panel title={`📑 ${t('panels.templates')}`} noPad>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                                     {[
-                                        { key: 'conservative', emoji: '🛡️', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0, productType: 'SPOT', exchangeFlavor: 'GENERIC' } },
-                                        { key: 'balanced', emoji: '⚖️', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
-                                        { key: 'aggressive', emoji: '🔥', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
+                                        { key: 'conservative', emoji: '🛡️', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0, productType: 'SPOT' as const, exchangeFlavor: 'GENERIC' as const } },
+                                        { key: 'balanced', emoji: '⚖️', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50, productType: 'FUTURES' as const, exchangeFlavor: 'BINGX' as const } },
+                                        { key: 'aggressive', emoji: '🔥', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100, productType: 'FUTURES' as const, exchangeFlavor: 'BINGX' as const } },
                                     ].map(temp => (
                                         <button
                                             key={temp.key}

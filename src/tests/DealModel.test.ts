@@ -11,7 +11,9 @@ describe('Canonical Economics Engine (DealModel)', () => {
         R: 1000,         // Retainer
         I: 500,          // Ops
         B: 0,
-        safetyThreshold: 15
+        safetyThreshold: 15,
+        productType: 'FUTURES',
+        exchangeFlavor: 'BINGX'
     };
 
     it('Scenario 1: Baseline 10M Deal', () => {

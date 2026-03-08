@@ -200,7 +200,7 @@ export const translations = {
             loadParams: "⚡ LOAD SCENARIO",
             rain: "🌧️ MAKE IT RAIN {coin}",
             score: "Score {val}/100",
-            version: "MISSION RECOVERY v5.5 - SYSTEM ACTIVE",
+            version: "SYSTEM v4.0 - NUCLEAR RECOVERY ACTIVE",
             contact: "✈️ DM @ostryopos",
             urlCopied: "App URL copied to clipboard!"
         },
@@ -521,7 +521,7 @@ export const translations = {
             loadParams: "⚡ ZAŁADUJ SCENARIUSZ",
             rain: "🌧️ ZRÓB DESZCZ {coin}",
             score: "Wynik {val}/100",
-            version: "MISJA REKOWERY v5.5 - SYSTEM AKTYWNY",
+            version: "SYSTEM v4.0 - NUCLEAR RECOVERY ACTIVE",
             contact: "✈️ DM @ostryopos",
             urlCopied: "Link do aplikacji skopiowany!"
         },

@@ -11,7 +11,9 @@ describe('Calculator Core Logic', () => {
         R: 0,
         I: 0,
         B: 0,
-        safetyThreshold: 15
+        safetyThreshold: 15,
+        productType: 'FUTURES',
+        exchangeFlavor: 'BINGX'
     };
 
     it('should decrease net profit when Retainer (R) increases', () => {

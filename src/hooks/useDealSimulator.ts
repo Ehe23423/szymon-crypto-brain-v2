@@ -10,7 +10,9 @@ const DEFAULT_PARAMS: DealParams = {
     R: 0,
     I: 0,
     B: 0,
-    safetyThreshold: 15
+    safetyThreshold: 15,
+    productType: 'FUTURES',
+    exchangeFlavor: 'BINGX'
 };
 
 export function useDealSimulator(initialParams: Partial<DealParams> = {}) {

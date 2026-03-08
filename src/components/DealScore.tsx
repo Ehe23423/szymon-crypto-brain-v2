@@ -1,4 +1,4 @@
-import React from 'react';
+// No import React needed here if unused
 import { useLanguage } from '../lib/LanguageContext';
 import type { DealParams, DealResult } from '../model/DealModel';
 import { calculateDealMetrics } from '../model/DealModel';
