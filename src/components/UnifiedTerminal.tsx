@@ -20,6 +20,8 @@ import { DealAssistant } from './DealAssistant';
 import { WhaleEffect } from './WhaleEffect';
 import { useCryptoRain, type CoinType } from './SolanaRain';
 import { useLanguage } from '../lib/LanguageContext';
+import { StreamerMode } from './StreamerMode';
+import { TraderAnalytics } from './TraderAnalytics';
 
 type TabId = 'hunter' | 'agency' | 'roast' | 'streamer' | 'trader';
 
@@ -74,6 +76,15 @@ export function UnifiedTerminal() {
     const metrics = useMemo(() => calculateDealMetrics(params), [params]);
     const { RainComponent, triggerRain } = useCryptoRain();
     const [selectedRainCoin, setSelectedRainCoin] = useState<CoinType>('SOL');
+    const [streamerModeActive, setStreamerModeActive] = useState(false);
+
+    React.useEffect(() => {
+        if (streamerModeActive) {
+            document.body.classList.add('streamer-mode-active');
+        } else {
+            document.body.classList.remove('streamer-mode-active');
+        }
+    }, [streamerModeActive]);
 
     const dealScore = useMemo(() => {
         const buf = metrics.marginBuffer * 100;
@@ -163,6 +174,40 @@ export function UnifiedTerminal() {
                                 <option key={i} value={i} style={{ background: '#1e1e22' }}>{t(`scenarios.${s.key}`)}</option>
                             ))}
                         </select>
+
+                        <div style={{ display: 'flex', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '2px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <button
+                                onClick={() => updateParam('productType', 'SPOT')}
+                                className={`storm-btn ${params.productType === 'SPOT' ? 'active' : ''}`}
+                                style={{ fontSize: '0.6rem', padding: '2px 8px', height: '24px', borderRadius: '6px' }}
+                            >
+                                SPOT
+                            </button>
+                            <button
+                                onClick={() => updateParam('productType', 'FUTURES')}
+                                className={`storm-btn ${params.productType === 'FUTURES' ? 'active' : ''}`}
+                                style={{ fontSize: '0.6rem', padding: '2px 8px', height: '24px', borderRadius: '6px' }}
+                            >
+                                FUTURES
+                            </button>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '2px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <button
+                                onClick={() => updateParam('exchangeFlavor', 'BINGX')}
+                                className={`storm-btn ${params.exchangeFlavor === 'BINGX' ? 'active' : ''}`}
+                                style={{ fontSize: '0.6rem', padding: '2px 8px', height: '24px', borderRadius: '6px', color: params.exchangeFlavor === 'BINGX' ? '#10b981' : 'white' }}
+                            >
+                                BINGX AI
+                            </button>
+                            <button
+                                onClick={() => updateParam('exchangeFlavor', 'GENERIC')}
+                                className={`storm-btn ${params.exchangeFlavor === 'GENERIC' ? 'active' : ''}`}
+                                style={{ fontSize: '0.6rem', padding: '2px 8px', height: '24px', borderRadius: '6px' }}
+                            >
+                                GENERIC
+                            </button>
+                        </div>
 
                         <div style={{ display: 'flex', gap: '2px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)', overflow: 'hidden' }}>
                             <select
@@ -261,9 +306,9 @@ export function UnifiedTerminal() {
                             <Panel title={`📑 ${t('panels.templates')}`} noPad>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                                     {[
-                                        { key: 'conservative', emoji: '🛡️', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0 } },
-                                        { key: 'balanced', emoji: '⚖️', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50 } },
-                                        { key: 'aggressive', emoji: '🔥', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100 } },
+                                        { key: 'conservative', emoji: '🛡️', params: { V: 5000000, F: 0.035, P: 40, S: 30, R: 0, I: 0, B: 0, productType: 'SPOT', exchangeFlavor: 'GENERIC' } },
+                                        { key: 'balanced', emoji: '⚖️', params: { V: 15000000, F: 0.035, P: 50, S: 37, R: 1200, I: 500, B: 50, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
+                                        { key: 'aggressive', emoji: '🔥', params: { V: 30000000, F: 0.035, P: 60, S: 45, R: 1800, I: 800, B: 100, productType: 'FUTURES', exchangeFlavor: 'BINGX' } },
                                     ].map(temp => (
                                         <button
                                             key={temp.key}
@@ -295,11 +340,11 @@ export function UnifiedTerminal() {
                     {/* RIGHT CONTENT */}
                     <div className="layout-main">
 
-                        {/* ─── HUNTER / STREAMER / TRADER TABS ─── */}
-                        {['hunter', 'streamer', 'trader'].includes(activeTab) && (
+                        {/* ─── HUNTER TAB ─── */}
+                        {activeTab === 'hunter' && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minWidth: 0 }} className="terminal-grid">
-                                    <Panel title={`🚨 ${t('panels.scoreEngine')}`} tint="hunter">
+                                    <Panel title={`🏅 ${t('panels.scoreEngine')}`}>
                                         <DealScore params={params} metrics={metrics} />
                                     </Panel>
                                     <Panel title={`⚠️ ${t('panels.warnings')}`} tint="warning">
@@ -320,6 +365,41 @@ export function UnifiedTerminal() {
                                 </Panel>
                                 <Panel title={`🤖 ${t('panels.assistant')}`} tint="blue">
                                     <DealAssistant params={params} metrics={metrics} dealScore={dealScore} />
+                                </Panel>
+                            </div>
+                        )}
+
+                        {/* ─── STREAMER TAB ─── */}
+                        {activeTab === 'streamer' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <Panel title="🎮 STREAMER HUD" tint="pink">
+                                    <StreamerMode isActive={streamerModeActive} onToggle={setStreamerModeActive} />
+                                    {streamerModeActive && (
+                                        <div className="fade-in" style={{ marginTop: '16px', padding: '16px', background: 'rgba(0,0,0,0.3)', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+                                            <h4 style={{ margin: '0 0 12px 0', fontSize: '0.8rem', color: 'var(--accent-pink)' }}>🎰 Gambling Overlay Active</h4>
+                                            <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                                                Numbers are masked in the main terminal. The "Rain" effect is prioritized for stream engagement.
+                                            </p>
+                                        </div>
+                                    )}
+                                </Panel>
+                                <Panel title={`🏅 ${t('panels.scoreEngine')}`}>
+                                    <DealScore params={params} metrics={metrics} />
+                                </Panel>
+                            </div>
+                        )}
+
+                        {/* ─── TRADER TAB ─── */}
+                        {activeTab === 'trader' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                <Panel title="📈 TRADER ANALYTICS" tint="purple">
+                                    <TraderAnalytics params={params} metrics={metrics} />
+                                </Panel>
+                                <Panel title={`🌡️ ${t('panels.heatmap')}`}>
+                                    <Heatmap params={params} />
+                                </Panel>
+                                <Panel title={`📈 ${t('panels.projections')}`}>
+                                    <MinimalCharts params={params} />
                                 </Panel>
                             </div>
                         )}

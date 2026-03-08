@@ -1,4 +1,6 @@
 
+import React from 'react';
+
 interface Props {
     value: number;
     onChange: (val: number) => void;
@@ -32,7 +34,7 @@ export function MarginSafetyLock({ value, onChange }: Props) {
                         max={40}
                         step={5}
                         value={value}
-                        onChange={e => {
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             const val = Number(e.target.value);
                             const closest = steps.reduce((prev, curr) =>
                                 Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLanguage } from '../lib/LanguageContext';
 import type { DealParams, DealResult } from '../model/DealModel';
 import { calculateDealMetrics } from '../model/DealModel';
